@@ -35,7 +35,7 @@
 #include <vector>
 
 #include "edge.h"
-#include "random.h"
+// #include "random.h"
 
 using std::cerr;
 using std::cout;
@@ -58,28 +58,33 @@ class Graph
 {
 public:
     /**
-     * Constructor to create an empty graph.
-     * @param weighted - specifies whether the graph is a weighted graph or
-     *  not
+     * Constructor to create an empty, weighted, and directed graph.
      */
-    Graph(bool weighted);
+    Graph();
 
-    /**
-     * Constructor to create an empty graph.
-     * @param weighted - specifies whether the graph is a weighted graph or
-     *  not
-     * @param directed - specifies whether the graph is directed
-     */
-    Graph(bool weighted, bool directed);
+    // /**
+    //  * Constructor to create an empty graph.
+    //  * @param weighted - specifies whether the graph is a weighted graph or
+    //  *  not
+    //  */
+    // Graph(bool weighted);
 
-    /**
-     * Constructor to create a random, connected graph.
-     * @param weighted - specifies whether the graph is a weighted graph or
-     *  not
-     * @param numVertices - the number of vertices the graph will have
-     * @param seed - a random seed to create the graph with
-     */
-    Graph(bool weighted, int numVertices, unsigned long seed);
+    // /**
+    //  * Constructor to create an empty graph.
+    //  * @param weighted - specifies whether the graph is a weighted graph or
+    //  *  not
+    //  * @param directed - specifies whether the graph is directed
+    //  */
+    // Graph(bool weighted, bool directed);
+
+    // /**
+    //  * Constructor to create a random, connected graph.
+    //  * @param weighted - specifies whether the graph is a weighted graph or
+    //  *  not
+    //  * @param numVertices - the number of vertices the graph will have
+    //  * @param seed - a random seed to create the graph with
+    //  */
+    // Graph(bool weighted, int numVertices, unsigned long seed);
 
     /**
      * Gets all adjacent vertices to the parameter vertex.
@@ -88,12 +93,12 @@ public:
      */
     vector<Vertex> getAdjacent(Vertex source) const;
 
-    /**
-     * Returns one vertex in the graph. This function can be used
-     *  to find a random vertex with which to start a traversal.
-     * @return a vertex from the graph
-     */
-    Vertex getStartingVertex() const;
+    // /**
+    //  * Returns one vertex in the graph. This function can be used
+    //  *  to find a random vertex with which to start a traversal.
+    //  * @return a vertex from the graph
+    //  */
+    // Vertex getStartingVertex() const;
 
     /**
      * Gets all vertices in the graph.
@@ -239,7 +244,7 @@ private:
 
     bool weighted;
     bool directed;
-    Random random;
+    // Random random;
     int picNum;
     string picName;
 

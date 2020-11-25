@@ -18,7 +18,9 @@ class Reddit{
     Reddit();
 
     private:
-    Graph redditg_;
-    Vertex startvertex_;
+    // Graph redditg_;
+    // Vertex startvertex_;
+    Graph g_;
+    
 
 };   

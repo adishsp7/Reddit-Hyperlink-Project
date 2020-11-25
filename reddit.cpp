@@ -21,7 +21,7 @@ Reddit::Reddit() //Project graph constructor
     std::string sent; // temp string to parse link sentiment - edge weight
     std::string count; // temp string to parse #links averaged - edge label
 
-    while(!f.eof())
+    while(!f.eof()) // read lines till end of file is reached
     {
         std::getline(f, src, ','); // reads till first comma, inserts data in 'src'
         std::getline(f, des, ','); // reads till second comma, inserts data in 'des' 

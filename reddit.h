@@ -20,6 +20,8 @@ class Reddit{
     Reddit();
     void BFS(Graph & g_);
     void BFSHelper(Graph & g_, Vertex v);
+    bool Reddit::IDS(string node, string goal, int depth);
+
 
     private:
     // Graph redditg_;

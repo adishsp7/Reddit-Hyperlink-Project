@@ -4,6 +4,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <queue>
+#include <list>
+#include <deque>
+
+using namespace std;
 
 
 Reddit::Reddit() //Project graph constructor
@@ -40,4 +45,48 @@ Reddit::Reddit() //Project graph constructor
     }
 
     f.close(); // close .csv file
+}
+
+
+
+void Reddit::BFS(Graph & g_){
+    //std::unordered_map<Vertex, bool> vlabel;
+    //std::unordered_map<Edge, std::string> elabel;
+    int connectedcomp = 0;
+    for(Vertex v : g_.getVertices()){
+        vlabel[v] = false;
+    }
+    for(Edge e: g_.getEdges()){
+        elabel[e] = "UNEXPLORED";
+    }
+    for(Vertex v : g_.getVertices()){
+        if(vlabel[v] = false){
+            BFSHelper(g_, v);
+            connectedcomp++;
+        }
+    }
+
+}
+void Reddit::BFSHelper(Graph & g_, Vertex v){
+    std::queue<Vertex> vertices;
+    vlabel[v] = true;
+    vertices.push(v);
+    bool cycle = false;
+    //Vertex popped;
+
+    while(!vertices.empty()){
+        v = vertices.front();
+        vertices.pop();
+        for(Vertex w : g_.getAdjacent(v)){
+            if(vlabel[w] == false){
+                elabel[g_.getEdge(v, w)] = "DISCOVERY";
+                vlabel[w] = true;
+                vertices.push(w);
+            }
+            else if(vlabel[w] == true){
+                elabel[g_.getEdge(v, w)] = "CROSS";
+                cycle = true;
+            }
+        }
+    }
 }

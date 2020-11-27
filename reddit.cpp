@@ -12,11 +12,9 @@
 using namespace std;
 
 
-Reddit::Reddit() //Project graph constructor
+Reddit::Reddit(string filename) : g_() // create empty, weighted, and directed graph
 {
-    g_ = Graph(); // create empty, weighted, and directed graph
-    std::ifstream f("cleaned.csv"); //input file stream - file pointer
-    
+    std::ifstream f(filename); //input file stream - file pointer
     if(!f.is_open()) std::cout << "File not found!" << std::endl; // error message
 
     std::string str;

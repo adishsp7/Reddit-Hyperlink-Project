@@ -19,7 +19,7 @@ class Reddit{
     std::unordered_map<Vertex, bool> vlabel;
     std::unordered_map<Edge, std::string> elabel;
 
-    Reddit();
+    Reddit(string filename);
     void BFS(Graph & g_);
     void BFSHelper(Graph & g_, Vertex v);
 

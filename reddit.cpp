@@ -94,6 +94,50 @@ void Reddit::BFSHelper(Graph & g_, Vertex v){
 }
 
 /**
+ * Breadth First Search 
+ * @param src - Source vertex
+ * @param goal - Target vertex
+ * @return BFS path
+ */
+vector<Vertex> Reddit::myBFS(Vertex src, Vertex goal)
+{
+    queue<Vertex> q; //initialize queue to add adjecent vertices
+    unordered_map<Vertex, Vertex> prev; // initialize map to track prev vertex
+    q.push(src); // add source vertex to queue
+    Vertex curr; // initializes current vertex variable
+
+    while(!q.empty()) // loops till all vertices are explored or goal is found
+    {
+        curr = q.front(); // assigns q front to current vertex
+        q.pop(); // removes current vertex from queue
+        vector<Vertex> vertex_list = g_.getAdjacent(curr);  // gets a list of adjacent vertices for current vertex
+        for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
+        {
+            if (prev.find(vertex_list[i]) == prev.end()) // checks if this adjecent vertex is unvisted
+            {
+                prev[vertex_list[i]] = curr; // sets current vertex as previous vertex for this adjecent vertex
+                q.push(vertex_list[i]); // adds this adjecent vertex to queue
+                if (vertex_list[i] == goal) break; // breaks from for-loop if this adjecent vertex is the goal 
+            }
+        }
+        if (q.back() == goal) break; // breaks from while-loop if the last vertex in the is the goal
+    }
+    
+    vector<Vertex> path; // intializes vector to store output path
+    if(q.empty()) return path; // if goal not found returns empty path
+
+    curr = q.back(); // sets current vertex to goal
+    path.push_back(curr); // pushes goal in path vector
+    while(curr != src) // loops till all the vertices in the path have been pushed
+    {
+        curr = prev[curr]; // sets current vertex to its previous vertex
+        path.push_back(curr); // pushes previous vertex to the path
+    }
+    reverse(path.begin(), path.end()); // reverses path so the first vertex is source and the last vertex is the goal
+    return path; // returns path
+}
+
+/**
  * Calls dUtil to find max depth
  * @param src - Source vertex
  * @return Max depth of source node using DFS
@@ -139,7 +183,7 @@ int Reddit::dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src)
 /**
  * Calls IDSutil iteratively increasing depth after every iteration 
  * @param src - Source vertex
- * @param goal - target vertex
+ * @param goal - Target vertex
  * @return DFS path
  */
 vector<Vertex> Reddit::IDS(string src, string goal)
@@ -159,11 +203,11 @@ vector<Vertex> Reddit::IDS(string src, string goal)
 /**
  * perform iterative deepening search from a starting node until 
  * goal is found or until the depth goes out of the given bound
- * @param visited - unoreded set to track visted nodes - passed as reference
- * @param path - vector of vertices that store the path traversed - passed as reference
- * @param node - source node
- * @param goal - target node
- * @param depth - upper depth limit
+ * @param visited - Unoreded set to track visted nodes - passed as reference
+ * @param path - Vector of vertices that store the path traversed - passed as reference
+ * @param node - Source Vertex
+ * @param goal - Target Vertex
+ * @param depth - Upper depth limit
  * @return whether target successfully found
  */
 bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth) {

@@ -42,6 +42,7 @@ Reddit::Reddit() //Project graph constructor
             int w = std::stof(sent) * std::stoi(count); // calculate edge weight
             g_.setEdgeWeight(src, des, w); // set edge weight
             g_.setEdgeLabel(src, des, count); // set edge label
+            if(!attempt) std::cout << "Failed to insert edge!" << std::endl; // error message
         }
     }
 
@@ -92,17 +93,80 @@ void Reddit::BFSHelper(Graph & g_, Vertex v){
     }
 }
 
+/**
+ * Calls dUtil to find max depth
+ * @param src - Source vertex
+ * @return Max depth of source node using DFS
+ */
+int Reddit::maxDepth(Vertex src)
+{
+    unordered_map<Vertex, int> depth; // initializes depth map
+    return dUtil(depth, src, src); // starts recursion for src node
+}
 
 /**
- * perform iterative deepening search from a starting node until
+ * Calls dUtil to find max depth
+ * @param depth - Unordered map that tracks max depth of each node
+ * @param node - Current recursive call's vertex
+ * @param src - Source vertex
+ * @return Max depth of current node using DFS
+ */
+int Reddit::dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src)
+{
+    int max = 0; // initializes max depth tracker for current vertex to 0
+    vector<Vertex> vertex_list = g_.getAdjacent(node);  // get a list of adjacent vertices
+    for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
+    {
+        int curr; // initializes max depth tracker for this adjecenct vertex
+        if(vertex_list[i] == src) // checks if this adjecent vertex is the source vertex 
+        {
+            continue; // skips source vertex
+        }
+        else if(depth.find(vertex_list[i]) == depth.end()) // checks if this adjecent vertex is unvisted
+        {
+            curr = dUtil(depth, vertex_list[i], src) + 1; // calls dUtil to get max depth for this adjecent vertex
+        }
+        else // this vertex has already been visited
+        {
+            curr = depth[vertex_list[i]] + 1; // gets max depth of this adjecent vertex
+        }
+        max = (curr > max) ? curr : max; // sets max to the maximum of current adjecent vertex depth and previously iterated adjecent vertices
+    }
+    depth[node] = max; // adds current vertex to depth map and assigns max as its depth
+    return max; // returns max depth of current vertex
+}
+
+/**
+ * Calls IDSutil iteratively increasing depth after every iteration 
+ * @param src - Source vertex
+ * @param goal - target vertex
+ * @return DFS path
+ */
+vector<Vertex> Reddit::IDS(string src, string goal)
+{
+    vector<Vertex> path; // intializes vector to store output path
+    unordered_set<Vertex> visited; // initializes set to track visited vertices
+    int depth = maxDepth(src); // gets maximum depth for source node
+    for (int d = 1; d < depth; d++) // iteratively increases search depth
+    {
+        if(IDSutil(visited, path, src, goal, d)) break; // if goal is found breaks from loop
+        path.clear(); // clears path for next IDS
+        visited.clear(); // clears visited tracker for next IDS
+    }
+    return path; //returns empty path if goal not found | returns path of vertices if goal is found
+}
+
+/**
+ * perform iterative deepening search from a starting node until 
  * goal is found or until the depth goes out of the given bound
- * @param g_ - our reddit graph
+ * @param visited - unoreded set to track visted nodes - passed as reference
+ * @param path - vector of vertices that store the path traversed - passed as reference
  * @param node - source node
  * @param goal - target node
  * @param depth - upper depth limit
  * @return whether target successfully found
  */
-bool Reddit::IDS(string node, string goal, int depth) {
+bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth) {
     if (node == goal){  // if target subreddit found, return true
         return true;
     }
@@ -110,10 +174,21 @@ bool Reddit::IDS(string node, string goal, int depth) {
         return false;
     }
     vector<Vertex> vertex_list = g_.getAdjacent(node);  // get a list of adjacent vertices
-    for (size_t i = 0; i < vertex_list.size(); i++){
-        if (IDS(vertex_list[i], goal, depth - 1) == true){
-            return true;
+    for (size_t i = 0; i < vertex_list.size(); i++)
+    {
+        if(visited.find(vertex_list[i]) == visited.end()) // checks if vertex is unvisted
+        {
+            visited.insert(vertex_list[i]); // marks vertex as visted
+            path.push_back(vertex_list[i]); // adds vertex to path
+            if (IDSutil(visited, path, vertex_list[i], goal, depth - 1)) // recursive call to IDSutil with decreased depth
+            {
+                return true; // goal found
+            }
+            else
+            {
+                path.pop_back(); // removes vertex added from path since DFS was unsuccesful from this node
+            }
         }
     }
-    return false;
+    return false; // goal not found
 }

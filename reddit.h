@@ -6,6 +6,7 @@
 #pragma once
 
 #include <vector>
+#include <unordered_set>
 #include <algorithm>
 
 #include "graph.h"
@@ -20,8 +21,11 @@ class Reddit{
     Reddit();
     void BFS(Graph & g_);
     void BFSHelper(Graph & g_, Vertex v);
-    bool Reddit::IDS(string node, string goal, int depth);
 
+    vector<Vertex> IDS(string src, string goal);
+    bool IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth);
+    int maxDepth(Vertex src);
+    int dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src);
 
     private:
     // Graph redditg_;

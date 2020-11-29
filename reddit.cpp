@@ -184,11 +184,10 @@ int Reddit::dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src)
  * @param goal - Target vertex
  * @return DFS path
  */
-vector<Vertex> Reddit::IDS(string src, string goal)
+vector<Vertex> Reddit::IDS(string src, string goal, int depth)
 {
     vector<Vertex> path; // intializes vector to store output path
     unordered_set<Vertex> visited; // initializes set to track visited vertices
-    int depth = maxDepth(src); // gets maximum depth for source node
     for (int d = 1; d < depth; d++) // iteratively increases search depth
     {
         if(IDSutil(visited, path, src, goal, d)) break; // if goal is found breaks from loop

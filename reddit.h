@@ -13,15 +13,17 @@
 #include "graph.h"
 #include "edge.h"
 
+using std::unordered_set;
+
 class Reddit{
     
     public:
-    std::unordered_map<Vertex, bool> vlabel;
-    std::unordered_map<Edge, std::string> elabel;
+    // std::unordered_map<Vertex, bool> vlabel;
+    // std::unordered_map<Edge, std::string> elabel;
 
     Reddit(string filename);
-    void BFS(Graph & g_);
-    void BFSHelper(Graph & g_, Vertex v);
+    // void BFS(Graph & g_);
+    // void BFSHelper(Graph & g_, Vertex v);
 
     vector<Vertex> myBFS(Vertex src, Vertex goal);
 

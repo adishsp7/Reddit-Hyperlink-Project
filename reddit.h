@@ -25,7 +25,7 @@ class Reddit{
 
     vector<Vertex> myBFS(Vertex src, Vertex goal);
 
-    vector<Vertex> IDS(string src, string goal);
+    vector<Vertex> IDS(string src, string goal, int depth);
     bool IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth);
     int maxDepth(Vertex src);
     int dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src);

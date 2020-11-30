@@ -29,7 +29,7 @@ class Reddit{
 
     vector<Vertex> BFS(Vertex src, Vertex goal);
 
-    vector<vector<Vertex>> SSCs();
+    vector<vector<Vertex>> SCCs();
     void DFS(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s);
 
     vector<Vertex> IDS(string src, string goal, int depth);

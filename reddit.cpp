@@ -154,7 +154,7 @@ vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
  
  * @return A vector of vectors of vertices - vector of strongly connected components 
  */
-vector<vector<Vertex>> Reddit::SSCs()
+vector<vector<Vertex>> Reddit::SCCs()
 {
     vector<vector<Vertex>> res; // Vector to store Strongly Connected Components
     vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
@@ -169,20 +169,20 @@ vector<vector<Vertex>> Reddit::SSCs()
     }
 
     visited.clear(); // clears unordered set in order to track visited vertices of graph transpose
-    stack<Vertex> ssc; // Stack of vertices to store vertices of a given SCC
+    stack<Vertex> scc; // Stack of vertices to store SCCs of a given vertex
 
-    while(!s.empty()) // loops till SSCs of each vertex has been found 
+    while(!s.empty()) // loops till SCCs of each vertex have been found 
     {
         Vertex curr = s.top(); // gets top vertex from exploration order stack
         s.pop(); // removes top vertex from exploration order stack
         if(visited.find(curr) == visited.end()) // checks if vertex is unvisted in gT_
         {
-            res.push_back({}); // inserts empty vector of vertices - to be populated by this vertex's SSCs
-            DFS(curr, gT_, visited, ssc); // fills stack(ssc) with SSCs of this vertex
-            while(!ssc.empty()) // copies stack(ssc) into this vertex's SSCs list - res.back()
+            res.push_back({}); // inserts empty vector of vertices - to be populated by this vertex's SCCs
+            DFS(curr, gT_, visited, scc); // fills stack(ssc) with SCCs of this vertex
+            while(!scc.empty()) // copies stack(scc) into this vertex's SCCs list(res.back())
             {
-                res.back().push_back(ssc.top()); // copies top vertex from stack(ssc) to this vertex's SSCs list
-                ssc.pop(); //removes top vertex from stack(ssc)
+                res.back().push_back(scc.top()); // copies top vertex from stack(scc) to this vertex's SCCs list
+                scc.pop(); //removes top vertex from stack(scc)
             }
         }
     }

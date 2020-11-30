@@ -25,7 +25,7 @@ class Reddit{
     // void BFS(Graph & g_);
     // void BFSHelper(Graph & g_, Vertex v);
 
-    vector<Vertex> myBFS(Vertex src, Vertex goal);
+    vector<Vertex> BFS(Vertex src, Vertex goal);
 
     vector<Vertex> IDS(string src, string goal, int depth);
     bool IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth);

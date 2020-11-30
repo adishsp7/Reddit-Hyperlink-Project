@@ -111,7 +111,7 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
  * @param goal - Target vertex
  * @return BFS path
  */
-vector<Vertex> Reddit::myBFS(Vertex src, Vertex goal)
+vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
 {
     queue<Vertex> q; //initialize queue to add adjecent vertices
     unordered_map<Vertex, Vertex> prev; // initialize map to track prev vertex

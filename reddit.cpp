@@ -12,7 +12,7 @@
 using namespace std;
 
 
-Reddit::Reddit(string filename) : g_() // create empty, weighted, and directed graph
+Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and directed graph and its transpose
 {
     std::ifstream f(filename); //input file stream - file pointer
     if(!f.is_open()) std::cout << "File not found!" << std::endl; // error message
@@ -41,6 +41,20 @@ Reddit::Reddit(string filename) : g_() // create empty, weighted, and directed g
             g_.setEdgeWeight(src, des, w); // set edge weight
             g_.setEdgeLabel(src, des, count); // set edge label
             if(!attempt) std::cout << "Failed to insert edge!" << std::endl; // error message
+        }
+
+        // Same process as above for the graphs transpose:
+
+        if(!gT_.vertexExists(src)) gT_.insertVertex(src); // if source subreddit doesnt exist, insert to graph
+        if(!gT_.vertexExists(des)) gT_.insertVertex(des); // if target subreddit doesnt exist, insert to graph
+        // order of edge is reversed from (src, des) to (des, src) in order to create transpose
+        if(!gT_.edgeExists(des, src)) // if edge connecting des & src doesnt exist:
+        {
+            bool attempt = gT_.insertEdge(des, src); // insert edge
+            int w = std::stof(sent) * std::stoi(count); // calculate edge weight
+            gT_.setEdgeWeight(des, src, w); // set edge weight
+            gT_.setEdgeLabel(des, src, count); // set edge label
+            if(!attempt) std::cout << "Failed to insert transpose edge!" << std::endl; // error message
         }
     }
 

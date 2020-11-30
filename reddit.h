@@ -36,7 +36,6 @@ class Reddit{
     // Graph redditg_;
     // Vertex startvertex_;
     Graph g_;
-
-    
+    Graph gT_;
 
 };   

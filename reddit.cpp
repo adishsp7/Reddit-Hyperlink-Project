@@ -150,6 +150,67 @@ vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
 }
 
 /**
+ * Implementation of Kosaraju's algorithm to find strongly connected components
+ 
+ * @return A vector of vectors of vertices - vector of strongly connected components 
+ */
+vector<vector<Vertex>> Reddit::SSCs()
+{
+    vector<vector<Vertex>> res; // Vector to store Strongly Connected Components
+    vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
+    unordered_set<Vertex> visited; // Unordered set to track visited vertices
+    stack<Vertex> s; // Stack of vertices to store order of exploration of graph(g_)
+    for(size_t i = 0; i < vertices.size(); i++) // iterate over all vertices in graph
+    {
+        if(visited.find(vertices[i]) == visited.end()) // checks if vertex is unvisted in g_
+        {
+            DFS(vertices[i], g_, visited, s); // fills stack(s) with vertices reachable via DFS from this vertex
+        }
+    }
+
+    visited.clear(); // clears unordered set in order to track visited vertices of graph transpose
+    stack<Vertex> ssc; // Stack of vertices to store vertices of a given SCC
+
+    while(!s.empty()) // loops till SSCs of each vertex has been found 
+    {
+        Vertex curr = s.top(); // gets top vertex from exploration order stack
+        s.pop(); // removes top vertex from exploration order stack
+        if(visited.find(curr) == visited.end()) // checks if vertex is unvisted in gT_
+        {
+            res.push_back({}); // inserts empty vector of vertices - to be populated by this vertex's SSCs
+            DFS(curr, gT_, visited, ssc); // fills stack(ssc) with SSCs of this vertex
+            while(!ssc.empty()) // copies stack(ssc) into this vertex's SSCs list - res.back()
+            {
+                res.back().push_back(ssc.top()); // copies top vertex from stack(ssc) to this vertex's SSCs list
+                ssc.pop(); //removes top vertex from stack(ssc)
+            }
+        }
+    }
+    return res; // returns list of all strongly connected components for this graph
+}
+
+/**
+ * DFS utility for strongly connected components
+ * @param src - Source vertex
+ * @param g - Aliases graph(g_) or graph transpose(gT_)
+ * @param visited - Unordered set to keep track of visited nodes
+ * @param s - Stack to build order of exploration during non-transpose call and to store SCCs in transpose call
+ */
+void Reddit::DFS(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s)
+{
+    visited.insert(src); // marks vertex as visted
+    vector<Vertex> vertex_list = g.getAdjacent(src);  // get a list of adjacent vertices
+    for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
+    {
+        if(visited.find(vertex_list[i]) == visited.end()) // checks if this adjecent vertex is unvisted
+        {
+            DFS(vertex_list[i], g, visited, s); // calls DFS recursively on adjecent vertex
+        }
+    }
+    s.push(src); //add vertex to the stack - see parameters for more detailed explanation of utility
+}
+
+/**
  * Calls dUtil to find max depth
  * @param src - Source vertex
  * @return Max depth of source node using DFS

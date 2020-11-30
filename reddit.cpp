@@ -45,8 +45,8 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
 
         // Same process as above for the graphs transpose:
 
-        if(!gT_.vertexExists(src)) gT_.insertVertex(src); // if source subreddit doesnt exist, insert to graph
-        if(!gT_.vertexExists(des)) gT_.insertVertex(des); // if target subreddit doesnt exist, insert to graph
+        if(!gT_.vertexExists(src)) gT_.insertVertex(src); // if source subreddit doesnt exist, insert to graph transpose
+        if(!gT_.vertexExists(des)) gT_.insertVertex(des); // if target subreddit doesnt exist, insert to graph transpose
         // order of edge is reversed from (src, des) to (des, src) in order to create transpose
         if(!gT_.edgeExists(des, src)) // if edge connecting des & src doesnt exist:
         {

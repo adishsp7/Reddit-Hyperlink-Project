@@ -307,7 +307,6 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
             }
         }
     }
-<<<<<<< HEAD
     return false;
 }
 
@@ -366,7 +365,3 @@ void Reddit::StronglyCC() {
         if (dfsnum[vertices[i]] == NULL) 
             StronglyCCUtil(vertices[i], dfsnum, low, st, visited); 
 } 
-=======
-    return false; // goal not found
-}
->>>>>>> 64296e845f879031bb79d02007ed5a19aff9d5e0

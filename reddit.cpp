@@ -322,8 +322,7 @@ void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> dfsnum, unor
     for (int i = 0 ; i < adj.size() ; i++) { 
         Vertex child = adj[i];
   
-        if (dfsnum[child] == NULL) 
-        { 
+        if (dfsnum[child] == NULL) { 
             StronglyCCUtil(child, dfsnum, low, st, visited);
             low[curr]  = min(low[curr], low[child]); 
         } 
@@ -354,14 +353,15 @@ void Reddit::StronglyCC() {
     unordered_map<Vertex, bool> visited;
     stack<Vertex> *st = new stack<Vertex>(); 
   
-    for (int i = 0; i < vertices.size(); i++) 
-    { 
+    for (int i = 0; i < vertices.size(); i++) { 
         dfsnum[vertices[i]] = NULL; 
         low[vertices[i]] = NULL; 
         visited[vertices[i]] = false; 
     } 
   
-    for (int i = 0; i < vertices.size(); i++) 
-        if (dfsnum[vertices[i]] == NULL) 
-            StronglyCCUtil(vertices[i], dfsnum, low, st, visited); 
+    for (int i = 0; i < vertices.size(); i++){
+        if (dfsnum[vertices[i]] == NULL){
+            StronglyCCUtil(vertices[i], dfsnum, low, st, visited);
+        }
+    }
 } 

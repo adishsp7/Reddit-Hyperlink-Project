@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <queue>
+#include <stack>
 #include <list>
 #include <deque>
 #include <vector>
@@ -117,3 +118,59 @@ bool Reddit::IDS(string node, string goal, int depth) {
     }
     return false;
 }
+
+void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> dfsnum, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> visited) {
+    static int time = 0; 
+  
+    dfsnum[curr] = low[curr] = time; 
+    time++;
+    st->push(curr); 
+    visited[curr] = true; 
+  
+    vector<Vertex> adj = g_.getAdjacent(curr);
+    for (int i = 0 ; i < adj.size() ; i++) { 
+        Vertex child = adj[i];
+  
+        if (dfsnum[child] == NULL) 
+        { 
+            StronglyCCUtil(child, dfsnum, low, st, visited);
+            low[curr]  = min(low[curr], low[child]); 
+        } 
+  
+        else if (visited[child] == true) 
+            low[curr]  = min(low[curr], dfsnum[child]); 
+    } 
+
+    Vertex w = 0;
+    if (low[curr] == dfsnum[curr]){
+        result.push_back({});
+        while (st->top() != curr){ 
+            w = st->top(); 
+            result.back().push_back(w);
+            visited[w] = false; 
+            st->pop(); 
+        } 
+        w = st->top();
+        visited[w] = false; 
+        st->pop(); 
+    } 
+} 
+
+void Reddit::StronglyCC() {
+    vector<Vertex> vertices(g_.getVertices());
+    unordered_map<Vertex, int> dfsnum;
+    unordered_map<Vertex, int> low;
+    unordered_map<Vertex, bool> visited;
+    stack<Vertex> *st = new stack<Vertex>(); 
+  
+    for (int i = 0; i < vertices.size(); i++) 
+    { 
+        dfsnum[vertices[i]] = NULL; 
+        low[vertices[i]] = NULL; 
+        visited[vertices[i]] = false; 
+    } 
+  
+    for (int i = 0; i < vertices.size(); i++) 
+        if (dfsnum[vertices[i]] == NULL) 
+            StronglyCCUtil(vertices[i], dfsnum, low, st, visited); 
+} 

@@ -365,3 +365,7 @@ void Reddit::StronglyCC() {
         }
     }
 } 
+
+const Graph & Reddit::getGraph() const{
+    return g_;
+}

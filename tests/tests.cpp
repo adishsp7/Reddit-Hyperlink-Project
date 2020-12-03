@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <stack>
+#include <unordered_set>
 
 
 //using namespace cs225;
@@ -60,7 +61,39 @@ TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
 }
 
 TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
+  Reddit red("data/empty.csv");   // test case for 5 vertices
 
+  const Graph & g = red.getGraph();  
+  unordered_set<Vertex> visited;
+  stack<Vertex> s;
+  // assumed getAdjacent rotate ccw(?)
+  DFS("1", g, visited, s);    // s from bottom to top = 4, 5, 2, 3, 1, visited = [1, 3, 2, 5, 4]
+  
+  REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
+  
+  Vertex v1 = s.pop();
+  Vertex v2 = s.pop();
+  Vertex v3 = s.pop();
+  Vertex v4 = s.pop();
+  Vertex v5 = s.pop();        // stack cleare
+  
+  REQUIRE(v1 == "1");
+  REQUIRE(v2 == "3");
+  REQUIRE(v3 == "2");
+  REQUIRE(v4 == "5");
+  REQUIRE(v5 == "4")
+  
+  visited.clear();            // clear visite
+  
+  DFS("2", g, visited, s);    // s from bottom to top = 4, 5, 2, visited = [2, 5, 4]
+  REQUIRE(s.size() == 3);
+  v1 = s.pop();
+  v2 = s.pop();
+  v3 = s.pop();
+    
+  REQUIRE(v1 == "2");
+  REQUIRE(v2 == "5");
+  REQUIRE(v3 == "4");
 
 }
 

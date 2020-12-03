@@ -11,31 +11,155 @@
 //using namespace cs225;
 using namespace std;
 
-
-TEST_CASE("Reddit(file) constructor creates the correct edges", "[weight=1][part=1]") {
-  Reddit red("data/empty.csv");
-  const Graph & g = red.getGraph();
-
-  // always required edges
-  REQUIRE(g.edgeExists("1", "3"));
-  REQUIRE(g.edgeExists("2", "4"));
-
-  REQUIRE(g.edgeExists("3", "2"));
-
-  REQUIRE(g.edgeExists("4", "5"));
-  REQUIRE(g.edgeExists("5", "2"));
-
-
-}
-
 TEST_CASE("Reddit(file) constructor checks if empty", "[weight=1][part=1]") {
   Reddit red("data/empty.csv");
   const Graph & g = red.getGraph();
   vector<Vertex> vertices = g.getVertices();
-  vector<Vertex> edges = g.getEdges();
+  vector<Edge> edges = g.getEdges();
   
   REQUIRE(vertices.empty() == true);
   REQUIRE(edges.empty() == true);
+}
+
+TEST_CASE("Reddit(file) constructor test - Small", "[weight=1][part=1]") {
+  int n = 5; //number of edges - extracted from csv file
+  Reddit red("small.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
+  const Graph & gT = red.getTranspose(); //get transpose from reddit object
+
+  REQUIRE(g.getEdges().size() == n); //Ensures number of edges is exactly correct 
+  REQUIRE(gT.getEdges().size() == n);  //Ensures number of edges is exactly correct 
+
+  //Vector of vertex pairs representing expected edges
+  vector<string[2]> pairs = {{"1", "3"}, {"2", "4"}, {"3", "2"}, {"4", "5"}, {"5", "2"}};
+
+  for(int i = 0; i < n; i++)
+  {
+    REQUIRE(g.edgeExists(pairs[i][0], pairs[i][1]));
+    REQUIRE(gT.edgeExists(pairs[i][1], pairs[i][0]));
+  } 
+
+  // always required edges
+  // REQUIRE(g.edgeExists("1", "3"));
+  // REQUIRE(gT.edgeExists("3", "1"));
+
+  // REQUIRE(g.edgeExists("2", "4"));
+  // REQUIRE(gT.edgeExists("4", "2"));
+
+  // REQUIRE(g.edgeExists("3", "2"));
+  // REQUIRE(gT.edgeExists("2", "3"));
+
+  // REQUIRE(g.edgeExists("4", "5"));
+  // REQUIRE(gT.edgeExists("5", "4"));
+
+  // REQUIRE(g.edgeExists("5", "2"));
+  // REQUIRE(gT.edgeExists("2", "5"));
+
+}
+
+TEST_CASE("Reddit(file) constructor test - Medium", "[weight=1][part=1]") {
+  int n = 13; //number of edges - extracted from csv file
+  Reddit red("medium.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
+  const Graph & gT = red.getTranspose(); //get transpose from reddit object
+
+  REQUIRE(g.getEdges().size() == n);  //Ensures number of edges is exactly correct 
+  REQUIRE(gT.getEdges().size() == n);  //Ensures number of edges is exactly correct 
+  
+  //Vector of vertex pairs representing expected edges
+  vector<string[2]> pairs = {{"K", "A"}, 
+                            {"K", "B"}, 
+                            {"A", "D"}, 
+                            {"D", "H"}, 
+                            {"D", "F"}, 
+                            {"H", "G"}, 
+                            {"G", "F"}, 
+                            {"G", "J"}, 
+                            {"G", "E"}, 
+                            {"F", "C"}, 
+                            {"C", "B"}, 
+                            {"E", "K"}, 
+                            {"J", "K"}};
+  
+  for(int i = 0; i < n; i++)
+  {
+    REQUIRE(g.edgeExists(pairs[i][0], pairs[i][1])); //Ensures each of the expected edges exists in graph
+    REQUIRE(gT.edgeExists(pairs[i][1], pairs[i][0])); //Ensures each of the expected edges exists in transpose
+  } 
+}
+
+TEST_CASE("Reddit(file) constructor test - Large #1", "[weight=1][part=1]") {
+  int n = 18; //number of edges - extracted from csv file
+  Reddit red("large1.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
+  const Graph & gT = red.getTranspose(); //get transpose from reddit object
+
+  REQUIRE(g.getEdges().size() == n);  //Ensures number of edges is exactly correct 
+  REQUIRE(gT.getEdges().size() == n);  //Ensures number of edges is exactly correct 
+
+  //Vector of vertex pairs representing expected edges
+  vector<string[2]> pairs = {{"K", "B"}, 
+                            {"A", "D"}, 
+                            {"D", "H"}, 
+                            {"D", "F"}, 
+                            {"H", "G"}, 
+                            {"G", "F"}, 
+                            {"G", "J"}, 
+                            {"G", "E"}, 
+                            {"F", "C"}, 
+                            {"C", "B"}, 
+                            {"E", "K"}, 
+                            {"J", "K"},
+                            {"1", "3"},
+                            {"2", "4"},
+                            {"3", "2"},
+                            {"4", "5"},
+                            {"5", "2"},
+                            {"A", "1"}};
+  
+  for(int i = 0; i < n; i++)
+  {
+    REQUIRE(g.edgeExists(pairs[i][0], pairs[i][1])); //Ensures each of the expected edges exists in graph
+    REQUIRE(gT.edgeExists(pairs[i][1], pairs[i][0])); //Ensures each of the expected edges exists in transpose
+  } 
+}
+
+TEST_CASE("Reddit(file) constructor test - Large #2", "[weight=1][part=1]") {
+  int n = 20; //number of edges - extracted from csv file
+  Reddit red("large2.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
+  const Graph & gT = red.getTranspose(); //get transpose from reddit object
+
+  REQUIRE(g.getEdges().size() == n);  //Ensures number of edges is exactly correct 
+  REQUIRE(gT.getEdges().size() == n);  //Ensures number of edges is exactly correct 
+
+  //Vector of vertex pairs representing expected edges
+  vector<string[2]> pairs = {{"K", "B"}, 
+                            {"A", "D"}, 
+                            {"D", "H"}, 
+                            {"D", "F"}, 
+                            {"H", "G"}, 
+                            {"G", "F"}, 
+                            {"G", "J"}, 
+                            {"G", "E"}, 
+                            {"F", "C"}, 
+                            {"C", "B"}, 
+                            {"E", "K"}, 
+                            {"J", "K"},
+                            {"1", "3"},
+                            {"2", "4"},
+                            {"3", "2"},
+                            {"4", "5"},
+                            {"5", "2"},
+                            {"C", "5"},
+                            {"4", "A"},
+                            {"A", "1"}};
+  
+  for(int i = 0; i < n; i++)
+  {
+    REQUIRE(g.edgeExists(pairs[i][0], pairs[i][1])); //Ensures each of the expected edges exists in graph
+    REQUIRE(gT.edgeExists(pairs[i][1], pairs[i][0])); //Ensures each of the expected edges exists in transpose
+  } 
 }
 
 TEST_CASE("Reddit(file) constructor creates corrects vertices", "[weight=1][part=1]") {

@@ -33,7 +33,7 @@ class Reddit{
     void BFS(Graph & g_);
     void BFSHelper(Graph & g_, Vertex v);
 
-    bool Reddit::IDS(string node, string goal, int depth);
+    // bool Reddit::IDS(string node, string goal, int depth);
     vector<Vertex> IDS(string src, string goal, int depth);
 
     void StronglyCCUtil(Vertex u, unordered_map<Vertex, int> disc, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> stackMember);

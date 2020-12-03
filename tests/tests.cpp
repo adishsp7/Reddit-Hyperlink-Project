@@ -111,7 +111,7 @@ TEST_CASE("Mike Strongly Connected Components", "[weight=1][part=1]"){
 
 
 TEST_CASE("Kosaraju's Strongly Connected Components - Small", "[weight=1][part=1]"){
-  Reddit red("data/small.csv");
+  Reddit red("small.csv");
   
   vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}};
   vector<vector<Vertex>> res = red.SCCs();
@@ -126,7 +126,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Small", "[weight=1][part=1
 }
 
 TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][part=1]"){
-  Reddit red("data/medium.csv");
+  Reddit red("medium.csv");
   
   vector<vector<Vertex>> expected = {{"A", "D", "E", "G", "H", "J", "K"}, {"B"}, {"C"}, {"F"}};
   vector<vector<Vertex>> res = red.SCCs();
@@ -141,7 +141,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][part=
 }
 
 TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][part=1]"){
-  Reddit red("data/large1.csv");
+  Reddit red("large1.csv");
   
   vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}, {"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}, {"G"}, {"H"}, {"J"}, {"K"}};
   vector<vector<Vertex>> res = red.SCCs();
@@ -156,7 +156,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][par
 }
 
 TEST_CASE("Kosaraju's Strongly Connected Components - Large #2", "[weight=1][part=1]"){
-  Reddit red("data/large2.csv");
+  Reddit red("large2.csv");
   
   vector<vector<Vertex>> expected = {{"1", "2", "3", "4", "5", "A", "C", "D", "F", "G", "H"}, {"B"}, {"E"}, {"J"}, {"K"}};
   vector<vector<Vertex>> res = red.SCCs();

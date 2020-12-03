@@ -32,13 +32,17 @@ class Reddit{
     // void BFS(Graph & g_);
     // void BFSHelper(Graph & g_, Vertex v);
     // bool Reddit::IDS(string node, string goal, int depth);
-    void StronglyCCUtil(Vertex u, unordered_map<Vertex, int> disc, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> stackMember);
 
     private:
+    void StronglyCCUtil(Vertex u, unordered_map<Vertex, int> disc, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> stackMember);
+    void DFS(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s);
+    bool IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth);
+    int dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src);
     // Graph redditg_;
     // Vertex startvertex_;
     Graph g_;
     vector<vector<Vertex>> result;
+    Graph gT_;
 
     
 

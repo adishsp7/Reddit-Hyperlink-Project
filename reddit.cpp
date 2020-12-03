@@ -15,23 +15,30 @@ using namespace std;
 
 Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and directed graph and its transpose
 {
-    std::ifstream f(filename); //input file stream - file pointer
-    if(!f.is_open()) std::cout << "File not found!" << std::endl; // error message
-
-    std::string str;
+    ifstream f(filename); //input file stream - file pointer
+    if(!f.is_open()) 
+    {
+        std::cout << "File not found!" << std::endl; // error message
+        return;
+    }
+    string str;
     getline(f, str); //skips first line of csv - coloumn headers
 
-    std::string src; // temp string to parse source subreddit
-    std::string des; // temp string to parse target subreddit
-    std::string sent; // temp string to parse link sentiment - edge weight
-    std::string count; // temp string to parse #links averaged - edge label
+    string src; // temp string to parse source subreddit
+    string des; // temp string to parse target subreddit
+    string sent; // temp string to parse link sentiment - edge weight
+    string count; // temp string to parse #links averaged - edge label
 
-    while(!f.eof()) // read lines till end of file is reached
+
+    int num = 0;
+
+    while(1) // loops forever - breaks when end of file is reached
     {
         std::getline(f, src, ','); // reads till first comma, inserts data in 'src'
         std::getline(f, des, ','); // reads till second comma, inserts data in 'des' 
         std::getline(f, sent, ','); // reads till third comma, inserts data in 'sent'
         std::getline(f, count, '\n'); // reads till end of line, inserts data in 'count'
+        if(f.eof()) break; // if end of file is reached - breaks
 
         if(!g_.vertexExists(src)) g_.insertVertex(src); // if source subreddit doesnt exist, insert to graph
         if(!g_.vertexExists(des)) g_.insertVertex(des); // if target subreddit doesnt exist, insert to graph
@@ -309,7 +316,7 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
     }
     return false;
 }
-
+/*
 void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> dfsnum, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> visited) {
     static int time = 0; 
   
@@ -365,7 +372,7 @@ void Reddit::StronglyCC() {
         }
     }
 } 
-
+*/
 const Graph & Reddit::getGraph() const{
     return g_;
 }

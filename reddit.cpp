@@ -316,7 +316,7 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
     }
     return false;
 }
-/*
+
 void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> dfsnum, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> visited) {
     static int time = 0; 
   
@@ -372,7 +372,7 @@ void Reddit::StronglyCC() {
         }
     }
 } 
-*/
+
 const Graph & Reddit::getGraph() const{
     return g_;
 }

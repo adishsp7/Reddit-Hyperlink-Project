@@ -369,3 +369,7 @@ void Reddit::StronglyCC() {
 const Graph & Reddit::getGraph() const{
     return g_;
 }
+
+const Graph & Reddit::getTranspose() const{
+    return gT_;
+}

@@ -20,22 +20,20 @@ using std::stack;
 class Reddit{
     
     public:
-    // std::unordered_map<Vertex, bool> vlabel;
-    // std::unordered_map<Edge, std::string> elabel;
-
     Reddit(string filename);
+    vector<Vertex> BFS(Vertex src, Vertex goal);
+    vector<Vertex> IDS(string src, string goal, int depth);
+    vector<vector<Vertex>> SCCs();
+    void StronglyCC();
+    int maxDepth(Vertex src);
+    const Graph & getGraph() const;
+    const Graph & getTranspose() const;
+
     // void BFS(Graph & g_);
     // void BFSHelper(Graph & g_, Vertex v);
+    // bool Reddit::IDS(string node, string goal, int depth);
 
-    vector<Vertex> BFS(Vertex src, Vertex goal);
-
-    Reddit();
-    void BFS(Graph & g_);
-    void BFSHelper(Graph & g_, Vertex v);
-
-    bool Reddit::IDS(string node, string goal, int depth);
-    vector<Vertex> IDS(string src, string goal, int depth);
-
+    private:
     void StronglyCCUtil(Vertex u, unordered_map<Vertex, int> disc, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> stackMember);
     void StronglyCC();
 

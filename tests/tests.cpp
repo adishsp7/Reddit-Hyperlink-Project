@@ -104,9 +104,19 @@ TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
 
 }
 
-TEST_CASE("Mike Strongly Connected Components", "[weight=1][part=1]"){
+TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][part=1]"){
+  Reddit red("tests/small.csv");
+  
+  vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}};
+  vector<vector<Vertex>> res = red.StronglyCC(); 
 
+  for(size_t i = 0; i < res.size(); i++)
+  {
+    sort(res[i].begin(), res[i].end());   
+  }
 
+  sort(res.begin(), res.end());
+  REQUIRE(res == expected);
 }
 
 

@@ -24,7 +24,7 @@ class Reddit{
     vector<Vertex> BFS(Vertex src, Vertex goal);
     vector<Vertex> IDS(string src, string goal, int depth);
     vector<vector<Vertex>> SCCs();
-    void StronglyCC();
+    vector<vector<Vertex>> StronglyCC();
     int maxDepth(Vertex src);
     const Graph & getGraph() const;
     const Graph & getTranspose() const;
@@ -32,10 +32,7 @@ class Reddit{
     // void BFS(Graph & g_);
     // void BFSHelper(Graph & g_, Vertex v);
     // bool Reddit::IDS(string node, string goal, int depth);
-
-    private:
     void StronglyCCUtil(Vertex u, unordered_map<Vertex, int> disc, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> stackMember);
-    void StronglyCC();
 
     private:
     // Graph redditg_;

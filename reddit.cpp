@@ -346,7 +346,7 @@ void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> dfsnum, unor
     } 
 } 
 
-void Reddit::StronglyCC() {
+vector<vector<Vertex>> Reddit::StronglyCC() {
     vector<Vertex> vertices(g_.getVertices());
     unordered_map<Vertex, int> dfsnum;
     unordered_map<Vertex, int> low;
@@ -364,6 +364,7 @@ void Reddit::StronglyCC() {
             StronglyCCUtil(vertices[i], dfsnum, low, st, visited);
         }
     }
+    return result;
 } 
 
 const Graph & Reddit::getGraph() const{

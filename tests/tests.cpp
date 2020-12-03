@@ -110,9 +110,62 @@ TEST_CASE("Mike Strongly Connected Components", "[weight=1][part=1]"){
 }
 
 
-TEST_CASE("Yash Strongly Connected Components", "[weight=1][part=1]"){
+TEST_CASE("Kosaraju's Strongly Connected Components - Small", "[weight=1][part=1]"){
+  Reddit red("data/small.csv");
+  
+  vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}};
+  vector<vector<Vertex>> res = red.SCCs();
 
+  for(int i = 0; i < res.size(); i++)
+  {
+    sort(res[i].begin(), res[i].end());   
+  }
 
+  sort(res.begin(), res.end());
+  REQUIRE(res == expected);
 }
 
+TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][part=1]"){
+  Reddit red("data/medium.csv");
+  
+  vector<vector<Vertex>> expected = {{"A", "D", "E", "G", "H", "J", "K"}, {"B"}, {"C"}, {"F"}};
+  vector<vector<Vertex>> res = red.SCCs();
 
+  for(int i = 0; i < res.size(); i++)
+  {
+    sort(res[i].begin(), res[i].end());   
+  }
+
+  sort(res.begin(), res.end());
+  REQUIRE(res == expected);
+}
+
+TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][part=1]"){
+  Reddit red("data/large1.csv");
+  
+  vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}, {"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}, {"G"}, {"H"}, {"J"}, {"K"}};
+  vector<vector<Vertex>> res = red.SCCs();
+
+  for(int i = 0; i < res.size(); i++)
+  {
+    sort(res[i].begin(), res[i].end());   
+  }
+
+  sort(res.begin(), res.end());
+  REQUIRE(res == expected);
+}
+
+TEST_CASE("Kosaraju's Strongly Connected Components - Large #2", "[weight=1][part=1]"){
+  Reddit red("data/large2.csv");
+  
+  vector<vector<Vertex>> expected = {{"1", "2", "3", "4", "5", "A", "C", "D", "F", "G", "H"}, {"B"}, {"E"}, {"J"}, {"K"}};
+  vector<vector<Vertex>> res = red.SCCs();
+
+  for(int i = 0; i < res.size(); i++)
+  {
+    sort(res[i].begin(), res[i].end());   
+  }
+
+  sort(res.begin(), res.end());
+  REQUIRE(res == expected);
+}

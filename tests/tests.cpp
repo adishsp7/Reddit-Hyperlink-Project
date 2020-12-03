@@ -56,7 +56,14 @@ TEST_CASE("BFS creates correct shortest path traversal ", "[weight=1][part=1]"){
 }
 
 TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
+  Reddit red("data/empty.csv");   // test case for 5 vertices
 
+  const Graph & g = red.getGraph();
+  vector<Vertex> path = IDS("1", "5", 2);   // since d=2, should return empty path
+
+  REQUIRE(path.size() == 0);  // empty path
+
+  // checking for valid path in progress - will update soon
 
 }
 

@@ -203,13 +203,23 @@ TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
   red.DFS("1", g, visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
   
   REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
+<<<<<<< HEAD
   stack<Vertex> answer;
+=======
+  
+  stack<Vertex> answer;
+  
+>>>>>>> 9539e3adb1664ab6fda803f5640020568458c89d
   answer.push("5");
   answer.push("4");
   answer.push("2");
   answer.push("3");
   answer.push("1");
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 9539e3adb1664ab6fda803f5640020568458c89d
   REQUIRE(answer == s);
 
 }

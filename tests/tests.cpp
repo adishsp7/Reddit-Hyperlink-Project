@@ -38,23 +38,6 @@ TEST_CASE("Reddit(file) Constructor Test - Small", "[weight=1][part=1][construct
     REQUIRE(g.edgeExists(pairs[i][0], pairs[i][1]));
     REQUIRE(gT.edgeExists(pairs[i][1], pairs[i][0]));
   } 
-
-  // always required edges
-  // REQUIRE(g.edgeExists("1", "3"));
-  // REQUIRE(gT.edgeExists("3", "1"));
-
-  // REQUIRE(g.edgeExists("2", "4"));
-  // REQUIRE(gT.edgeExists("4", "2"));
-
-  // REQUIRE(g.edgeExists("3", "2"));
-  // REQUIRE(gT.edgeExists("2", "3"));
-
-  // REQUIRE(g.edgeExists("4", "5"));
-  // REQUIRE(gT.edgeExists("5", "4"));
-
-  // REQUIRE(g.edgeExists("5", "2"));
-  // REQUIRE(gT.edgeExists("2", "5"));
-
 }
 
 TEST_CASE("Reddit(file) Constructor Test - Medium", "[weight=1][part=1][constructor]") {
@@ -182,7 +165,7 @@ TEST_CASE("BFS creates correct shortest path traversal ", "[weight=1][part=1]"){
 }
 
 TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
-  Reddit red("data/empty.csv");   // test case for 5 vertices
+  Reddit red("tests/empty.csv");   // test case for 5 vertices
 
   const Graph & g = red.getGraph();
   vector<Vertex> path = red.IDS("1", "5", 2);   // since d=2, should return empty path
@@ -193,60 +176,26 @@ TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
 
 }
 
-TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
-<<<<<<< HEAD
-  /*Reddit red("data/empty.csv");   // test case for 5 vertices
-=======
-  Reddit red("tests/small.csv");   // test case for 5 vertices
->>>>>>> 8a70c5f955dccddfa8e553549da0a1f1b3336d83
+// TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
+//   Reddit red("tests/small.csv");   // test case for 5 vertices
 
-  const Graph & g = red.getGraph();  
-  unordered_set<Vertex> visited;
-  stack<Vertex> s;
-  // assumed getAdjacent rotate ccw(?)
-<<<<<<< HEAD
-  red.DFS("1", g, visited, s);    // s from bottom to top = 4, 5, 2, 3, 1, visited = [1, 3, 2, 5, 4]
-=======
-  red.DFS("1", g, visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
->>>>>>> 8a70c5f955dccddfa8e553549da0a1f1b3336d83
+//   const Graph & g = red.getGraph();  
+//   unordered_set<Vertex> visited;
+//   stack<Vertex> s;
+//   // assumed getAdjacent rotate ccw(?)
+//   red.DFS("1", g, visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
   
-  REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
-  stack<Vertex> expected;
-  expected.push("5");
-  expected.push("4");
-  expected.push("2");
-  expected.push("3");
-  expected.push("1");
+//   REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
+//   stack<Vertex> expected;
+//   expected.push("5");
+//   expected.push("4");
+//   expected.push("2");
+//   expected.push("3");
+//   expected.push("1");
   
-<<<<<<< HEAD
-  Vertex v1 = s.pop();
-  Vertex v2 = s.pop();
-  Vertex v3 = s.pop();
-  Vertex v4 = s.pop();
-  Vertex v5 = s.pop();        // stack cleare
-  
-  REQUIRE(v1 == "1");
-  REQUIRE(v2 == "3");
-  REQUIRE(v3 == "2");
-  REQUIRE(v4 == "5");
-  REQUIRE(v5 == "4")
-  
-  visited.clear();            // clear visite
-  
-  DFS("2", g, visited, s);    // s from bottom to top = 4, 5, 2, visited = [2, 5, 4]
-  REQUIRE(s.size() == 3);
-  v1 = s.pop();
-  v2 = s.pop();
-  v3 = s.pop();
-    
-  REQUIRE(v1 == "2");
-  REQUIRE(v2 == "5");
-  REQUIRE(v3 == "4");*/
-=======
-  REQUIRE(expected == s);
->>>>>>> 8a70c5f955dccddfa8e553549da0a1f1b3336d83
+//   REQUIRE(expected == s);
 
-}
+// }
 
 TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][part=1][Tarjan]"){
   Reddit red("tests/small.csv");

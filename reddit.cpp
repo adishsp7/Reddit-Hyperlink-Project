@@ -206,7 +206,7 @@ vector<Vertex> Reddit::IDS(string src, string goal, int depth)
  * @param depth - Upper depth limit
  * @return whether target successfully found
  */
-bool Reddit::IDSutil(unordered_set<Vertex> visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth) {  
+bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth) {  
     if (node == goal){  // if target subreddit found, return true
         return true;
     }
@@ -229,7 +229,7 @@ bool Reddit::IDSutil(unordered_set<Vertex> visited, vector<Vertex> & path, Verte
             path.pop_back(); // removes vertex added from path since DFS was unsuccesful from this node
         }
     }
-    // visited.erase(node); // marks current vertex as unvisted
+    visited.erase(node); // marks current vertex as unvisted
     return false; //goal not found
 }
 /*

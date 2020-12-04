@@ -25,6 +25,7 @@ class Reddit{
     vector<Vertex> IDS(string src, string goal, int depth);
     vector<vector<Vertex>> SCCs();
     vector<vector<Vertex>> StronglyCC();
+    void DFS(Vertex src, const Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s);
     int maxDepth(Vertex src);
     const Graph & getGraph() const;
     const Graph & getTranspose() const;

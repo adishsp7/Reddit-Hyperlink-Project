@@ -205,7 +205,7 @@ vector<vector<Vertex>> Reddit::SCCs()
  * @param visited - Unordered set to keep track of visited nodes
  * @param s - Stack to build order of exploration during non-transpose call and to store SCCs in transpose call
  */
-void Reddit::DFS(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s)
+void Reddit::DFS(Vertex src, const Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s)
 {
     visited.insert(src); // marks vertex as visted
     vector<Vertex> vertex_list = g.getAdjacent(src);  // get a list of adjacent vertices

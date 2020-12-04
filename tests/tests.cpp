@@ -194,16 +194,31 @@ TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
 }
 
 TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
+<<<<<<< HEAD
   /*Reddit red("data/empty.csv");   // test case for 5 vertices
+=======
+  Reddit red("tests/small.csv");   // test case for 5 vertices
+>>>>>>> 8a70c5f955dccddfa8e553549da0a1f1b3336d83
 
   const Graph & g = red.getGraph();  
   unordered_set<Vertex> visited;
   stack<Vertex> s;
   // assumed getAdjacent rotate ccw(?)
+<<<<<<< HEAD
   red.DFS("1", g, visited, s);    // s from bottom to top = 4, 5, 2, 3, 1, visited = [1, 3, 2, 5, 4]
+=======
+  red.DFS("1", g, visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
+>>>>>>> 8a70c5f955dccddfa8e553549da0a1f1b3336d83
   
   REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
+  stack<Vertex> expected;
+  expected.push("5");
+  expected.push("4");
+  expected.push("2");
+  expected.push("3");
+  expected.push("1");
   
+<<<<<<< HEAD
   Vertex v1 = s.pop();
   Vertex v2 = s.pop();
   Vertex v3 = s.pop();
@@ -227,6 +242,9 @@ TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
   REQUIRE(v1 == "2");
   REQUIRE(v2 == "5");
   REQUIRE(v3 == "4");*/
+=======
+  REQUIRE(expected == s);
+>>>>>>> 8a70c5f955dccddfa8e553549da0a1f1b3336d83
 
 }
 

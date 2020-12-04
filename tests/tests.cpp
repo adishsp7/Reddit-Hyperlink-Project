@@ -31,7 +31,7 @@ TEST_CASE("Reddit(file) Constructor Test - Small", "[weight=1][part=1][construct
   REQUIRE(gT.getEdges().size() == n);  //Ensures number of edges is exactly correct 
 
   //Vector of vertex pairs representing expected edges
-  vector<vector<string>> pairs = {{"1", "3"}, {"4", "2"}, {"3", "2"}, {"4", "5"}, {"5", "2"}};
+  vector<vector<string>> pairs = {{"1", "3"}, {"2", "4"}, {"3", "2"}, {"4", "5"}, {"5", "2"}};
 
   for(int i = 0; i < n; i++)
   {
@@ -185,7 +185,7 @@ TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
   Reddit red("data/empty.csv");   // test case for 5 vertices
 
   const Graph & g = red.getGraph();
-  vector<Vertex> path = IDS("1", "5", 2);   // since d=2, should return empty path
+  vector<Vertex> path = red.IDS("1", "5", 2);   // since d=2, should return empty path
 
   REQUIRE(path.size() == 0);  // empty path
 

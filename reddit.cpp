@@ -9,6 +9,7 @@
 #include <list>
 #include <deque>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -316,13 +317,18 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
     }
     return false;
 }
-
-void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> dfsnum, unordered_map<Vertex, int> low, stack<Vertex> *st, unordered_map<Vertex, bool> visited) {
+/*
+ * Calls StronglyCCUtil to find strongly connected components
+ * @param curr - Current vertex being observed
+ * @param dfsnum - Unordered map that keeps track of which order each node was visited
+ * @param low - Unordered map that is used to see which nodes are in the same compnent
+ * @return Max depth of current node using DFS
+ */
+void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> & dfsnum, unordered_map<Vertex, int> & low, stack<Vertex> & st, unordered_map<Vertex, bool> & visited) {
     static int time = 0; 
   
-    dfsnum[curr] = low[curr] = time; 
-    time++;
-    st->push(curr); 
+    dfsnum[curr] = low[curr] = ++time; 
+    st.push(curr); 
     visited[curr] = true; 
   
     vector<Vertex> adj = g_.getAdjacent(curr);
@@ -337,35 +343,35 @@ void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> dfsnum, unor
         else if (visited[child] == true) 
             low[curr]  = min(low[curr], dfsnum[child]); 
     } 
-
-    Vertex w = 0;
+    Vertex w;
     if (low[curr] == dfsnum[curr]){
         result.push_back({});
-        while (st->top() != curr){ 
-            w = st->top(); 
+        while (st.top() != curr){ 
+            w = st.top();
             result.back().push_back(w);
-            visited[w] = false; 
-            st->pop(); 
+            visited[w] = false;
+            st.pop(); 
         } 
-        w = st->top();
+        w = st.top();
+        result.back().push_back(w);
         visited[w] = false; 
-        st->pop(); 
+        st.pop(); 
     } 
 } 
 
 vector<vector<Vertex>> Reddit::StronglyCC() {
-    vector<Vertex> vertices(g_.getVertices());
+    vector<Vertex> vertices = g_.getVertices();
     unordered_map<Vertex, int> dfsnum;
     unordered_map<Vertex, int> low;
     unordered_map<Vertex, bool> visited;
-    stack<Vertex> *st = new stack<Vertex>(); 
+    stack<Vertex> st;
   
     for (unsigned i = 0; i < vertices.size(); i++) { 
         dfsnum[vertices[i]] = -1; 
         low[vertices[i]] = -1; 
         visited[vertices[i]] = false; 
     } 
-  
+
     for (unsigned i = 0; i < vertices.size(); i++){
         if (dfsnum[vertices[i]] == -1){
             StronglyCCUtil(vertices[i], dfsnum, low, st, visited);

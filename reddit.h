@@ -22,7 +22,6 @@ class Reddit{
     public:
     Reddit(string filename);
     vector<Vertex> BFS(Vertex src, Vertex goal);
-    void DFS(Vertex src, const Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s);
     vector<Vertex> IDS(string src, string goal, int depth);
     vector<vector<Vertex>> SCCs();
     vector<vector<Vertex>> StronglyCC();

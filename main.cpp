@@ -45,27 +45,23 @@ int main() {
   
     
   std::cout << "Graph Constructed!" << std::endl; 
-  auto t1 = std::chrono::high_resolution_clock::now();
-  red.BFS("rarepuppers", "erieco");
-  auto t2 = std::chrono::high_resolution_clock::now();
-  // printVec(red.IDS("rarepuppers", "colorado", 10));
-  // printVec(red.IDS("rarepuppers", "the_donald", 10));
-  // printVec(red.IDS("the_donald", "erieco", 10));
-  red.IDS("rarepuppers", "erieco", 5);
-  auto t3 = std::chrono::high_resolution_clock::now();
-  std::cout << "BFS: " << std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count() << std::endl;
-  std::cout << "IDS: " << std::chrono::duration_cast<std::chrono::microseconds>( t3 - t2 ).count() << std::endl;
-  // int brrr = 0;
-  // for(int i = 0; i < 100; i++)
-  // {
-  //   if((i+1)%10 == 0) std::cout << i+1 << std::endl;
-  //   auto t1 = std::chrono::high_resolution_clock::now();
-  //   red.IDS("rarepuppers", "erieco", 5);
-  //   // red.BFS("rarepuppers", "erieco");
-  //   auto t2 = std::chrono::high_resolution_clock::now();
-  //   brrr += std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
-  // }
-  // std::cout << "Average time: " << brrr/100 << std::endl;
+  
+
+  int bfs = 0;
+  int ids = 0;
+  for(int i = 0; i < 100; i++)
+  {
+    if((i+1)%10 == 0) std::cout << i+1 << std::endl;
+    auto t1 = std::chrono::high_resolution_clock::now();
+    red.BFS("rarepuppers", "erieco");
+    auto t2 = std::chrono::high_resolution_clock::now();
+    red.IDS("rarepuppers", "erieco", 5);
+    auto t3 = std::chrono::high_resolution_clock::now();
+    bfs += std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
+    ids += std::chrono::duration_cast<std::chrono::microseconds>( t3 - t2 ).count();
+  }
+  std::cout << "Average time for BFS: " << bfs/100 << std::endl;
+  std::cout << "Average time for IDS: " << ids/100 << std::endl;
  
 
   // printVec(red.getGraph().getAdjacent("simplerockets"));
@@ -81,3 +77,13 @@ int main() {
 // Average time: 113868
 //copy:
 //Average time: 397093
+
+// *****************************Search Time & Memory Test*******************************
+// Tests for search between "rarepuppers" and "erieco"
+// Baseline: total heap usage: 685,787 allocs, 685,787 frees, 77,193,512 bytes allocated
+// BFS: total heap usage: 707,555 allocs, 707,555 frees, 83,385,040 bytes allocated 
+// IDS: total heap usage: 703,676 allocs, 703,676 frees, 91,823,200 bytes allocated
+// Average time for BFS:  51.418 ms
+// Average time for IDS: 118.075 ms
+// Memeory Allocated BFS:  6.191528 MB 
+// Memeory Allocated IDS: 14.629688 MB

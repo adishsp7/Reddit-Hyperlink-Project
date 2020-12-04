@@ -175,48 +175,6 @@ void Reddit::DFS(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<V
     s.push(src); //add vertex to the stack - see parameters for more detailed explanation of utility
 }
 
-/**
- * Calls dUtil to find max depth
- * @param src - Source vertex
- * @return Max depth of source node using DFS
- */
-int Reddit::maxDepth(Vertex src)
-{
-    unordered_map<Vertex, int> depth; // initializes depth map
-    return dUtil(depth, src, src); // starts recursion for src node
-}
-
-/**
- * Calls dUtil to find max depth
- * @param depth - Unordered map that tracks max depth of each node
- * @param node - Current recursive call's vertex
- * @param src - Source vertex
- * @return Max depth of current node using DFS
- */
-int Reddit::dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src)
-{
-    int max = 0; // initializes max depth tracker for current vertex to 0
-    vector<Vertex> vertex_list = g_.getAdjacent(node);  // get a list of adjacent vertices
-    for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
-    {
-        int curr; // initializes max depth tracker for this adjecenct vertex
-        if(vertex_list[i] == src) // checks if this adjecent vertex is the source vertex 
-        {
-            continue; // skips source vertex
-        }
-        else if(depth.find(vertex_list[i]) == depth.end()) // checks if this adjecent vertex is unvisted
-        {
-            curr = dUtil(depth, vertex_list[i], src) + 1; // calls dUtil to get max depth for this adjecent vertex
-        }
-        else // this vertex has already been visited
-        {
-            curr = depth[vertex_list[i]] + 1; // gets max depth of this adjecent vertex
-        }
-        max = (curr > max) ? curr : max; // sets max to the maximum of current adjecent vertex depth and previously iterated adjecent vertices
-    }
-    depth[node] = max; // adds current vertex to depth map and assigns max as its depth
-    return max; // returns max depth of current vertex
-}
 
 /**
  * Calls IDSutil iteratively increasing depth after every iteration 
@@ -228,13 +186,14 @@ vector<Vertex> Reddit::IDS(string src, string goal, int depth)
 {
     vector<Vertex> path; // intializes vector to store output path
     unordered_set<Vertex> visited; // initializes set to track visited vertices
-    for (int d = 1; d < depth; d++) // iteratively increases search depth
-    {
+    for (int d = 0; d < depth; d++) // iteratively increases search depth
+    { 
+        path.push_back(src); // adds source to path
         if(IDSutil(visited, path, src, goal, d)) break; // if goal is found breaks from loop
         path.clear(); // clears path for next IDS
         visited.clear(); // clears visited tracker for next IDS
     }
-    return path; //returns empty path if goal not found | returns path of vertices if goal is found
+    return path;
 }
 
 /**
@@ -247,31 +206,31 @@ vector<Vertex> Reddit::IDS(string src, string goal, int depth)
  * @param depth - Upper depth limit
  * @return whether target successfully found
  */
-bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth) {
+bool Reddit::IDSutil(unordered_set<Vertex> visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth) {  
     if (node == goal){  // if target subreddit found, return true
         return true;
     }
-    if (depth <= 0){
+    if (depth <= 0){ //if depth limit reached return false
         return false;
     }
+    visited.insert(node); // marks current vertex as visted
     vector<Vertex> vertex_list = g_.getAdjacent(node);  // get a list of adjacent vertices
     for (size_t i = 0; i < vertex_list.size(); i++)
     {
+        // if(vertex_list[i] == "erieco") cout << "Here" << endl;
         if(visited.find(vertex_list[i]) == visited.end()) // checks if vertex is unvisted
         {
-            visited.insert(vertex_list[i]); // marks vertex as visted
             path.push_back(vertex_list[i]); // adds vertex to path
             if (IDSutil(visited, path, vertex_list[i], goal, depth - 1)) // recursive call to IDSutil with decreased depth
             {
+                // path.push_back(vertex_list[i]); // adds vertex to path
                 return true; // goal found
             }
-            else
-            {
-                path.pop_back(); // removes vertex added from path since DFS was unsuccesful from this node
-            }
+            path.pop_back(); // removes vertex added from path since DFS was unsuccesful from this node
         }
     }
-    return false;
+    // visited.erase(node); // marks current vertex as unvisted
+    return false; //goal not found
 }
 /*
  * Calls StronglyCCUtil to find strongly connected components

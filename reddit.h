@@ -30,8 +30,6 @@ class Reddit{
     const Graph & getGraph() const;
     const Graph & getTranspose() const;
 
-    // void BFS(Graph & g_);
-    // void BFSHelper(Graph & g_, Vertex v);
     // bool Reddit::IDS(string node, string goal, int depth);
 
     private:
@@ -39,8 +37,6 @@ class Reddit{
     void DFS(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s);
     bool IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth);
     int dUtil(unordered_map<Vertex, int> & depth, Vertex node, Vertex src);
-    // Graph redditg_;
-    // Vertex startvertex_;
     Graph g_;
     vector<vector<Vertex>> result;
     Graph gT_;

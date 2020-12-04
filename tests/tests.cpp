@@ -145,24 +145,55 @@ TEST_CASE("Reddit(file) Constructor Test - Large #2", "[weight=1][part=1][constr
   } 
 }
 
-// TEST_CASE("Reddit(file) constructor creates corrects vertices", "[weight=1][part=1]") {
-//   Reddit red("data/empty.csv");
-//   const Graph & g = red.getGraph();
 
-//   REQUIRE(g.vertexExists("A"));
-//   REQUIRE(g.vertexExists("B"));
-//   REQUIRE(g.vertexExists("C"));
-//   REQUIRE(g.vertexExists("D"));
-//   REQUIRE(g.vertexExists("E"));
-// }
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-// NOTE: Not needed since edgeExists throws an error if either of the vertices is not found 
+TEST_CASE("BFS creates correct shortest path traversal - Small", "[weight=1][part=1][BFS]"){
+  Reddit red("tests/small.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
 
+  vector<Vertex> test1to5 = {"1", "3", "2", "4", "5"}; //test for BFS shortest path from vertices 1 to 5
+  vector<Vertex> sol1to5 = red.BFS("1", "5"); //solution from BFS function
 
-TEST_CASE("BFS creates correct shortest path traversal ", "[weight=1][part=1]"){
+  vector<Vertex> test3to1 = {}; //test for BFS shortest path from vertices 3 to 1 (NOT POSSIBLE);
+  vector<Vertex> sol3to1 = red.BFS("3", "1"); //solution from BFS function
 
+  REQUIRE(test1to5 == sol1to5);
+  REQUIRE(test3to1 == sol3to1);
 
 }
+
+TEST_CASE("BFS creates correct shortest path traversal - Medium", "[weight=1][part=1][BFS]"){
+  Reddit red("tests/medium.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
+
+  vector<Vertex> testDtoA = {"D", "H", "G", "E", "K", "A"}; //test for BFS shortest path from vertices 1 to 5
+  vector<Vertex> solDtoA = red.BFS("D", "A"); //solution from BFS function
+
+  REQUIRE(testDtoA == solDtoA);
+
+}
+
+TEST_CASE("BFS creates correct shortest path traversal - Large #1", "[weight=1][part=1][BFS]"){
+  Reddit red("tests/large1.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
+
+  vector<Vertex> testAtoB = {"A", "D", "F", "C", "B"}; //test for BFS shortest path from vertices 1 to 5
+  vector<Vertex> solAtoB = red.BFS("A", "B"); //solution from BFS function
+
+  REQUIRE(testAtoB == solAtoB);
+
+}
+
+TEST_CASE("BFS creates correct shortest path traversal - Large #2", "[weight=1][part=1][BFS]"){
+  Reddit red("tests/large2.csv"); //constructs reddit object using constructor
+  const Graph & g = red.getGraph(); //get graph from reddit object
+
+  vector<Vertex> testAto2 = {"A", "1", "3", "2"}; //test for BFS shortest path from vertices 1 to 5
+  vector<Vertex> solAto2 = red.BFS("A", "2"); //solution from BFS function
+
+  REQUIRE(testAto2 == solAto2);
+
+}
+
 
 TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
   Reddit red("tests/empty.csv");   // test case for 5 vertices

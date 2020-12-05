@@ -207,26 +207,26 @@ TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1]"){
 
 }
 
-// TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
-//   Reddit red("tests/small.csv");   // test case for 5 vertices
+TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
+  Reddit red("tests/small.csv");   // test case for 5 vertices
 
-//   const Graph & g = red.getGraph();  
-//   unordered_set<Vertex> visited;
-//   stack<Vertex> s;
-//   // assumed getAdjacent rotate ccw(?)
-//   red.DFS("1", g, visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
+  const Graph & g = red.getGraph();  
+  unordered_set<Vertex> visited;
+  stack<Vertex> s;
+  // assumed getAdjacent rotate ccw(?)
+  red.DFS("1", visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
   
-//   REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
-//   stack<Vertex> expected;
-//   expected.push("5");
-//   expected.push("4");
-//   expected.push("2");
-//   expected.push("3");
-//   expected.push("1");
+  REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
+  stack<Vertex> expected;
+  expected.push("5");
+  expected.push("4");
+  expected.push("2");
+  expected.push("3");
+  expected.push("1");
   
-//   REQUIRE(expected == s);
+  REQUIRE(expected == s);
 
-// }
+}
 
 TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][part=1][Tarjan]"){
   Reddit red("tests/small.csv");

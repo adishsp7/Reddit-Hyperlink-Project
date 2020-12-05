@@ -217,13 +217,11 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
     vector<Vertex> vertex_list = g_.getAdjacent(node);  // get a list of adjacent vertices
     for (size_t i = 0; i < vertex_list.size(); i++)
     {
-        // if(vertex_list[i] == "erieco") cout << "Here" << endl;
         if(visited.find(vertex_list[i]) == visited.end()) // checks if vertex is unvisted
         {
             path.push_back(vertex_list[i]); // adds vertex to path
             if (IDSutil(visited, path, vertex_list[i], goal, depth - 1)) // recursive call to IDSutil with decreased depth
             {
-                // path.push_back(vertex_list[i]); // adds vertex to path
                 return true; // goal found
             }
             path.pop_back(); // removes vertex added from path since DFS was unsuccesful from this node

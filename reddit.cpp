@@ -123,7 +123,7 @@ vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
 void Reddit::DFS(Vertex src, unordered_set<Vertex> & visited, stack<Vertex> & s)
 {
     visited.insert(src); // marks vertex as visted
-    vector<Vertex> vertex_list = g.getAdjacent(src);  // get a list of adjacent vertices
+    vector<Vertex> vertex_list = g_.getAdjacent(src);  // get a list of adjacent vertices
     for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
     {
         if(visited.find(vertex_list[i]) == visited.end()) // checks if this adjecent vertex is unvisted

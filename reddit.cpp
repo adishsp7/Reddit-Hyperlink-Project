@@ -74,7 +74,7 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
  * Breadth First Search 
  * @param src - Source vertex
  * @param goal - Target vertex
- * @return BFS path
+ * @return BFS path in reverse order
  */
 vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
 {
@@ -122,8 +122,7 @@ vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
         curr = prev[curr]; // sets current vertex to its previous vertex
         path.push_back(curr); // pushes previous vertex to the path
     }
-    reverse(path.begin(), path.end()); // reverses path so the first vertex is source and the last vertex is the goal
-    return path; // returns path
+    return path; // returns reverse path
 }
 
 /**
@@ -203,7 +202,7 @@ void Reddit::SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, vec
  * Calls IDSutil iteratively increasing depth after every iteration 
  * @param src - Source vertex
  * @param goal - Target vertex
- * @return DFS path
+ * @return DFS path in reverse
  */
 vector<Vertex> Reddit::IDS(string src, string goal, int depth)
 {
@@ -223,7 +222,6 @@ vector<Vertex> Reddit::IDS(string src, string goal, int depth)
     unordered_set<Vertex> visited; // initializes set to track visited vertices
     for (int d = 0; d < depth; d++) // iteratively increases search depth
     { 
-        path.push_back(src); // adds source to path
         if(IDSutil(visited, path, src, goal, d)) break; // if goal is found breaks from loop
         path.clear(); // clears path for next IDS
         visited.clear(); // clears visited tracker for next IDS
@@ -243,6 +241,7 @@ vector<Vertex> Reddit::IDS(string src, string goal, int depth)
  */
 bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth) {  
     if (node == goal){  // if target subreddit found, return true
+        path.push_back(goal); // adds goal vertex to path
         return true;
     }
     if (depth <= 0){ //if depth limit reached return false
@@ -254,12 +253,11 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
     {
         if(visited.find(vertex_list[i]) == visited.end()) // checks if vertex is unvisted
         {
-            path.push_back(vertex_list[i]); // adds vertex to path
             if (IDSutil(visited, path, vertex_list[i], goal, depth - 1)) // recursive call to IDSutil with decreased depth
             {
+                path.push_back(node); // adds current vertex to path
                 return true; // goal found
             }
-            path.pop_back(); // removes vertex added from path since DFS was unsuccesful from this node
         }
     }
     visited.erase(node); // marks current vertex as unvisted

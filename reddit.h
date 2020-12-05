@@ -22,15 +22,16 @@ class Reddit{
     public:
     Reddit(string filename);
     vector<Vertex> BFS(Vertex src, Vertex goal);
+    vector<Vertex> TraversalDFS();
+    void DFS(Vertex src, unordered_set<Vertex> & visited, stack<Vertex> & s);
     vector<Vertex> IDS(string src, string goal, int depth);
     vector<vector<Vertex>> SCCs();
     vector<vector<Vertex>> StronglyCC();
-    void DFS(Vertex src, unordered_set<Vertex> & visited, stack<Vertex> & s);
     void printPath(vector<Vertex> vertices);
+    float getSentiment(vector<Vertex> vertices);
     const Graph & getGraph() const;
     const Graph & getTranspose() const;
 
-    // bool Reddit::IDS(string node, string goal, int depth);
 
     private:
     void StronglyCCUtil(Vertex u, unordered_map<Vertex, int> & disc, unordered_map<Vertex, int> & low, stack<Vertex> & st, unordered_map<Vertex, bool> & stackMember);

@@ -1,7 +1,8 @@
 #include "reddit.h"
 #include "graph.h"
 #include "edge.h"
-#include <iostream>
+#include <iostream> 
+#include <sstream> 
 #include <fstream>
 #include <string>
 #include <queue>
@@ -124,7 +125,20 @@ vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
     }
     return path; // returns reverse path
 }
-
+vector<Vertex> Reddit::TraversalDFS()
+{
+    unordered_set<Vertex> visited; // Unordered set to track visited vertices
+    vector<Vertex> explored;
+    vector<Vertex> vertices = g_.getVertices();
+    for(size_t i = 0; i < vertices.size(); i++)
+    {
+        if(visited.find(vertices[i]) == visited.end()) // checks if vertex is unvisited
+        {
+            SCCUtil(vertices[i], g_, visited, explored);
+        }
+    }
+    return explored;
+}
 /**
  * Depth First Search
  * @param src - Source vertex
@@ -338,7 +352,28 @@ void Reddit::printPath(vector<Vertex> vertices)
   {
     cout << (*it) << " ";
   }
-  std::cout << std::endl;
+  cout << endl;
+}
+
+float Reddit::getSentiment(vector<Vertex> vertices)
+{
+  if(vertices.empty()) 
+  {
+    cout << "Empty Path!" << endl;
+    return 0;
+  }
+
+  int edges = 0;
+  float sentiment = 0;
+  
+  for(size_t i = 1; i < vertices.size(); i++)
+  {
+    float count = stof(g_.getEdgeLabel(vertices[i], vertices[i-1]));
+    int weight = g_.getEdgeWeight(vertices[i], vertices[i-1]);
+    sentiment += (weight/count);
+    edges++;
+  }
+  return sentiment/edges;
 }
 
 const Graph & Reddit::getGraph() const{

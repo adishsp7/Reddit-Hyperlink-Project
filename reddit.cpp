@@ -328,6 +328,21 @@ vector<vector<Vertex>> Reddit::StronglyCC() {
     return result;
 } 
 
+void Reddit::printPath(vector<Vertex> vertices)
+{
+  if(vertices.empty()) 
+  {
+    std::cout << "Empty Path!" << std::endl;
+    return;
+  }
+
+  for(auto it = vertices.rbegin(); it != vertices.rend(); ++it)
+  {
+    cout << (*it) << " ";
+  }
+  std::cout << std::endl;
+}
+
 const Graph & Reddit::getGraph() const{
     return g_;
 }

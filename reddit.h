@@ -26,7 +26,7 @@ class Reddit{
     vector<vector<Vertex>> SCCs();
     vector<vector<Vertex>> StronglyCC();
     void DFS(Vertex src, unordered_set<Vertex> & visited, stack<Vertex> & s);
-    // void DFS(Vertex src, const Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s);
+    void printPath(vector<Vertex> vertices);
     const Graph & getGraph() const;
     const Graph & getTranspose() const;
 

@@ -34,7 +34,7 @@ class Reddit{
 
     private:
     void StronglyCCUtil(Vertex u, unordered_map<Vertex, int> & disc, unordered_map<Vertex, int> & low, stack<Vertex> & st, unordered_map<Vertex, bool> & stackMember);
-    void SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s);
+    void SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, vector<Vertex> & s);
     bool IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Vertex node, Vertex goal, int depth);
     
     Graph g_;

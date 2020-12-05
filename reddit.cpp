@@ -78,6 +78,18 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
  */
 vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
 {
+    if(!g_.vertexExists(src)) // Checks if Source subreddit exists
+    {
+        cout << "Source Vertex doesn't exist!" << endl; // Prints error message
+        return vector<Vertex>(); // Returns empty vector of vertices
+    }
+
+    if(!g_.vertexExists(goal)) // Checks if Goal subreddit exists
+    {
+        cout << "Target Vertex doesn't exist!" << endl; // Prints error message
+        return vector<Vertex>(); // Returns empty vector of vertices
+    }
+
     queue<Vertex> q; //initialize queue to add adjecent vertices
     unordered_map<Vertex, Vertex> prev; // initialize map to track prev vertex
     q.push(src); // add source vertex to queue
@@ -134,17 +146,12 @@ void Reddit::DFS(Vertex src, unordered_set<Vertex> & visited, stack<Vertex> & s)
     s.push(src); //add vertex to the stack - see parameters for more detailed explanation of utility
 }
 
-/**
- * Implementation of Kosaraju's algorithm to find strongly connected components
- 
- * @return A vector of vectors of vertices - vector of strongly connected components 
- */
 vector<vector<Vertex>> Reddit::SCCs()
 {
     vector<vector<Vertex>> res; // Vector to store Strongly Connected Components
     vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
     unordered_set<Vertex> visited; // Unordered set to track visited vertices
-    stack<Vertex> s; // Stack of vertices to store order of exploration of graph(g_)
+    vector<Vertex> s; // Stack of vertices to store order of exploration of graph(g_)
     for(size_t i = 0; i < vertices.size(); i++) // iterate over all vertices in graph
     {
         if(visited.find(vertices[i]) == visited.end()) // checks if vertex is unvisted in g_
@@ -154,21 +161,16 @@ vector<vector<Vertex>> Reddit::SCCs()
     }
 
     visited.clear(); // clears unordered set in order to track visited vertices of graph transpose
-    stack<Vertex> scc; // Stack of vertices to store SCCs of a given vertex
-
+    
     while(!s.empty()) // loops till SCCs of each vertex have been found 
     {
-        Vertex curr = s.top(); // gets top vertex from exploration order stack
-        s.pop(); // removes top vertex from exploration order stack
+        Vertex curr = s.back(); // gets top vertex from exploration order stack
+        s.pop_back(); // removes top vertex from exploration order stack
         if(visited.find(curr) == visited.end()) // checks if vertex is unvisted in gT_
         {
-            res.push_back({}); // inserts empty vector of vertices - to be populated by this vertex's SCCs
+            vector<Vertex> scc; // Stack of vertices to store SCCs of a given vertex
             SCCUtil(curr, gT_, visited, scc); // fills stack(ssc) with SCCs of this vertex
-            while(!scc.empty()) // copies stack(scc) into this vertex's SCCs list(res.back())
-            {
-                res.back().push_back(scc.top()); // copies top vertex from stack(scc) to this vertex's SCCs list
-                scc.pop(); //removes top vertex from stack(scc)
-            }
+            res.push_back(scc);
         }
     }
     return res; // returns list of all strongly connected components for this graph
@@ -181,7 +183,7 @@ vector<vector<Vertex>> Reddit::SCCs()
  * @param visited - Unordered set to keep track of visited nodes
  * @param s - Stack to build order of exploration during non-transpose call and to store SCCs in transpose call
  */
-void Reddit::SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, stack<Vertex> & s)
+void Reddit::SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, vector<Vertex> & s)
 {
     visited.insert(src); // marks vertex as visted
     vector<Vertex> vertex_list = g.getAdjacent(src);  // get a list of adjacent vertices
@@ -192,8 +194,9 @@ void Reddit::SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, sta
             SCCUtil(vertex_list[i], g, visited, s); // calls DFS recursively on adjecent vertex
         }
     }
-    s.push(src); //add vertex to the stack - see parameters for more detailed explanation of utility
+    s.push_back(src); //add vertex to the stack - see parameters for more detailed explanation of utility
 }
+
 
 
 /**
@@ -204,6 +207,18 @@ void Reddit::SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, sta
  */
 vector<Vertex> Reddit::IDS(string src, string goal, int depth)
 {
+    if(!g_.vertexExists(src)) // Checks if Source subreddit exists
+    {
+        cout << "Source Vertex doesn't exist!" << endl; // Prints error message
+        return vector<Vertex>(); // Returns empty vector of vertices
+    }
+
+    if(!g_.vertexExists(goal)) // Checks if Goal subreddit exists
+    {
+        cout << "Target Vertex doesn't exist!" << endl; // Prints error message
+        return vector<Vertex>(); // Returns empty vector of vertices
+    }
+
     vector<Vertex> path; // intializes vector to store output path
     unordered_set<Vertex> visited; // initializes set to track visited vertices
     for (int d = 0; d < depth; d++) // iteratively increases search depth

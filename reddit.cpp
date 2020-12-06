@@ -139,25 +139,7 @@ vector<Vertex> Reddit::TraversalDFS()
     }
     return explored;
 }
-/**
- * Depth First Search
- * @param src - Source vertex
- * @param visited - Unordered set to keep track of visited nodes
- * @param s - Stack to store traversed nodes
- */
-void Reddit::DFS(Vertex src, unordered_set<Vertex> & visited, stack<Vertex> & s)
-{
-    visited.insert(src); // marks vertex as visted
-    vector<Vertex> vertex_list = g_.getAdjacent(src);  // get a list of adjacent vertices
-    for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
-    {
-        if(visited.find(vertex_list[i]) == visited.end()) // checks if this adjecent vertex is unvisted
-        {
-            DFS(vertex_list[i], visited, s); // calls DFS recursively on adjecent vertex
-        }
-    }
-    s.push(src); //add vertex to the stack - see parameters for more detailed explanation of utility
-}
+
 
 vector<vector<Vertex>> Reddit::SCCs()
 {

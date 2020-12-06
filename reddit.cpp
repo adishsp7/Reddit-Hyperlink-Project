@@ -351,6 +351,7 @@ void Reddit::printPath(vector<Vertex> vertices)
   for(auto it = vertices.rbegin(); it != vertices.rend(); ++it)
   {
     cout << (*it) << " ";
+    if(it + 1 != vertices.rend()) cout << "-> ";
   }
   cout << endl;
 }

@@ -23,21 +23,23 @@ void sccSpeed(Reddit & r)
 
 int main() {
   
-  Reddit red("tests/small.csv");
+  // Reddit red("tests/small.csv");
   // Reddit red("tests/medium.csv");
   // Reddit red("tests/large2.csv");
   
-  // Reddit red("data/connected.csv");
+  Reddit red("data/connected.csv");
   
     
   std::cout << "Graph Constructed!" << std::endl; 
+  red.printPath(red.BFS("rarepuppers", "erieco"));
+  red.printPath(red.IDS("rarepuppers", "erieco", 4));
 
-  std::cout << red.getSentiment(red.BFS("1", "3")) << std::endl;
-  std::cout << red.getSentiment(red.BFS("1", "2")) << std::endl;
-  std::cout << red.getSentiment(red.BFS("1", "4")) << std::endl;
-  std::cout << red.getSentiment(red.BFS("1", "5")) << std::endl;
-  std::cout << red.getSentiment(red.BFS("3", "1")) << std::endl;
-  std::cout << red.getSentiment(red.BFS("3", "3")) << std::endl;
+  // std::cout << red.getSentiment(red.BFS("1", "3")) << std::endl;
+  // std::cout << red.getSentiment(red.BFS("1", "2")) << std::endl;
+  // std::cout << red.getSentiment(red.BFS("1", "4")) << std::endl;
+  // std::cout << red.getSentiment(red.BFS("1", "5")) << std::endl;
+  // std::cout << red.getSentiment(red.BFS("3", "1")) << std::endl;
+  // std::cout << red.getSentiment(red.BFS("3", "3")) << std::endl;
 
 
   // vector<Vertex> expected = red.getGraph().getVertices();

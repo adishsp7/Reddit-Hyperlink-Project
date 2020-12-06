@@ -27,7 +27,6 @@ int maxDepth(Reddit & red, Vertex src)
       unordered_map<Vertex, int> depth; // initializes depth map
       return dUtil(g, depth, src); // starts recursion for src node
     }
-    cout << "Vertex doesn't exist!" << endl;
     return -1;
 }
 

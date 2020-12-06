@@ -20,7 +20,7 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
     ifstream f(filename); //input file stream - file pointer
     if(!f.is_open()) 
     {
-        std::cout << "File not found!" << std::endl; // error message
+        cout << filename << " not found!" << endl; // error message
         return;
     }
     string str;
@@ -36,10 +36,10 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
 
     while(1) // loops forever - breaks when end of file is reached
     {
-        std::getline(f, src, ','); // reads till first comma, inserts data in 'src'
-        std::getline(f, des, ','); // reads till second comma, inserts data in 'des' 
-        std::getline(f, sent, ','); // reads till third comma, inserts data in 'sent'
-        std::getline(f, count, '\n'); // reads till end of line, inserts data in 'count'
+        getline(f, src, ','); // reads till first comma, inserts data in 'src'
+        getline(f, des, ','); // reads till second comma, inserts data in 'des' 
+        getline(f, sent, ','); // reads till third comma, inserts data in 'sent'
+        getline(f, count, '\n'); // reads till end of line, inserts data in 'count'
         if(f.eof()) break; // if end of file is reached - breaks
 
         if(!g_.vertexExists(src)) g_.insertVertex(src); // if source subreddit doesnt exist, insert to graph
@@ -47,10 +47,10 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
         if(!g_.edgeExists(src, des)) // if edge connecting src & des doesnt exist:
         {
             bool attempt = g_.insertEdge(src, des); // insert edge
-            int w = std::stof(sent) * std::stoi(count); // calculate edge weight
+            int w = stof(sent) * stoi(count); // calculate edge weight
             g_.setEdgeWeight(src, des, w); // set edge weight
             g_.setEdgeLabel(src, des, count); // set edge label
-            if(!attempt) std::cout << "Failed to insert edge!" << std::endl; // error message
+            if(!attempt) cout << "Failed to insert edge connecting '" << src << "' and '" << des << "'" << endl; // error message
         }
 
         // Same process as above for the graphs transpose:
@@ -61,10 +61,10 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
         if(!gT_.edgeExists(des, src)) // if edge connecting des & src doesnt exist:
         {
             bool attempt = gT_.insertEdge(des, src); // insert edge
-            int w = std::stof(sent) * std::stoi(count); // calculate edge weight
+            int w = stof(sent) * stoi(count); // calculate edge weight
             gT_.setEdgeWeight(des, src, w); // set edge weight
             gT_.setEdgeLabel(des, src, count); // set edge label
-            if(!attempt) std::cout << "Failed to insert transpose edge!" << std::endl; // error message
+            if(!attempt) cout << "Failed to insert transpose edge connecting '" << des << "' and '" << src << "'" << endl; // error message
         }
     }
 
@@ -81,13 +81,13 @@ vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
 {
     if(!g_.vertexExists(src)) // Checks if Source subreddit exists
     {
-        cout << "Source Vertex doesn't exist!" << endl; // Prints error message
+        cout << "Vertex '" << src << "' doesn't exist!" << endl; // Prints error message
         return vector<Vertex>(); // Returns empty vector of vertices
     }
 
     if(!g_.vertexExists(goal)) // Checks if Goal subreddit exists
     {
-        cout << "Target Vertex doesn't exist!" << endl; // Prints error message
+        cout << "Vertex '" << goal << "' doesn't exist!" << endl; // Prints error message
         return vector<Vertex>(); // Returns empty vector of vertices
     }
 
@@ -222,13 +222,13 @@ vector<Vertex> Reddit::IDS(string src, string goal, int depth)
 {
     if(!g_.vertexExists(src)) // Checks if Source subreddit exists
     {
-        cout << "Source Vertex doesn't exist!" << endl; // Prints error message
+        cout << "Vertex '" << src << "' doesn't exist!" << endl; // Prints error message
         return vector<Vertex>(); // Returns empty vector of vertices
     }
 
     if(!g_.vertexExists(goal)) // Checks if Goal subreddit exists
     {
-        cout << "Target Vertex doesn't exist!" << endl; // Prints error message
+        cout << "Vertex '" << goal << "' doesn't exist!" << endl; // Prints error message
         return vector<Vertex>(); // Returns empty vector of vertices
     }
 

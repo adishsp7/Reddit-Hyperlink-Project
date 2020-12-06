@@ -60,7 +60,7 @@ int dUtil(const Graph & g, unordered_map<Vertex, int> & depth, Vertex node)
 
 
 
-TEST_CASE("Reddit(file) constructor checks if empty", "[weight=1][part=1][constructor]") {
+TEST_CASE("Reddit(file) constructor checks if empty", "[weight=1][constructor]") {
   Reddit red("tests/empty.csv");
   const Graph & g = red.getGraph();
   vector<Vertex> vertices = g.getVertices();
@@ -70,7 +70,7 @@ TEST_CASE("Reddit(file) constructor checks if empty", "[weight=1][part=1][constr
   REQUIRE(edges.empty() == true);
 }
 
-TEST_CASE("Reddit(file) Constructor Test - Small", "[weight=1][part=1][constructor]") {
+TEST_CASE("Reddit(file) Constructor Test - Small", "[weight=1][constructor]") {
   int n = 5; //number of edges - extracted from csv file
   Reddit red("tests/small.csv"); //constructs reddit object using constructor
   const Graph & g = red.getGraph(); //get graph from reddit object
@@ -89,7 +89,7 @@ TEST_CASE("Reddit(file) Constructor Test - Small", "[weight=1][part=1][construct
   } 
 }
 
-TEST_CASE("Reddit(file) Constructor Test - Medium", "[weight=1][part=1][constructor]") {
+TEST_CASE("Reddit(file) Constructor Test - Medium", "[weight=1][constructor]") {
   int n = 13; //number of edges - extracted from csv file
   Reddit red("tests/medium.csv"); //constructs reddit object using constructor
   const Graph & g = red.getGraph(); //get graph from reddit object
@@ -120,7 +120,7 @@ TEST_CASE("Reddit(file) Constructor Test - Medium", "[weight=1][part=1][construc
   } 
 }
 
-TEST_CASE("Reddit(file) Constructor Test - Large #1", "[weight=1][part=1][constructor]") {
+TEST_CASE("Reddit(file) Constructor Test - Large #1", "[weight=1][constructor]") {
   int n = 18; //number of edges - extracted from csv file
   Reddit red("tests/large1.csv"); //constructs reddit object using constructor
   const Graph & g = red.getGraph(); //get graph from reddit object
@@ -156,7 +156,7 @@ TEST_CASE("Reddit(file) Constructor Test - Large #1", "[weight=1][part=1][constr
   } 
 }
 
-TEST_CASE("Reddit(file) Constructor Test - Large #2", "[weight=1][part=1][constructor]") {
+TEST_CASE("Reddit(file) Constructor Test - Large #2", "[weight=1][constructor]") {
   int n = 20; //number of edges - extracted from csv file
   Reddit red("tests/large2.csv"); //constructs reddit object using constructor
   const Graph & g = red.getGraph(); //get graph from reddit object
@@ -195,7 +195,7 @@ TEST_CASE("Reddit(file) Constructor Test - Large #2", "[weight=1][part=1][constr
 }
 
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("BFS creates correct shortest path traversal - Small", "[weight=1][part=1][BFS]"){
+TEST_CASE("BFS creates correct shortest path traversal - Small", "[weight=1][BFS]"){
   Reddit red("tests/small.csv"); //constructs reddit object using constructor
 
   vector<Vertex> test1to5 = {"5", "4", "2", "3", "1"}; //test for BFS shortest path from vertices 1 to 5 in reverse
@@ -210,7 +210,7 @@ TEST_CASE("BFS creates correct shortest path traversal - Small", "[weight=1][par
 }
 
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("BFS creates correct shortest path traversal - Medium", "[weight=1][part=1][BFS]"){
+TEST_CASE("BFS creates correct shortest path traversal - Medium", "[weight=1][BFS]"){
   Reddit red("tests/medium.csv"); //constructs reddit object using constructor
 
   vector<Vertex> testDtoA = {"A", "K", "E", "G", "H", "D"}; //test for BFS shortest path from vertices D to A in reverse
@@ -221,7 +221,7 @@ TEST_CASE("BFS creates correct shortest path traversal - Medium", "[weight=1][pa
 }
 
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("BFS creates correct shortest path traversal - Large #1", "[weight=1][part=1][BFS]"){
+TEST_CASE("BFS creates correct shortest path traversal - Large #1", "[weight=1][BFS]"){
   Reddit red("tests/large1.csv"); //constructs reddit object using constructor
 
   vector<Vertex> testAtoB = {"B", "C", "F", "D", "A"}; //test for BFS shortest path from vertices A to B in reverse
@@ -232,7 +232,7 @@ TEST_CASE("BFS creates correct shortest path traversal - Large #1", "[weight=1][
 }
 
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("BFS creates correct shortest path traversal - Large #2", "[weight=1][part=1][BFS]"){
+TEST_CASE("BFS creates correct shortest path traversal - Large #2", "[weight=1][BFS]"){
   Reddit red("tests/large2.csv"); //constructs reddit object using constructor
 
   vector<Vertex> testAto2 = {"2", "3", "1", "A"}; //test for BFS shortest path from vertices A to 2 in reverse
@@ -242,31 +242,21 @@ TEST_CASE("BFS creates correct shortest path traversal - Large #2", "[weight=1][
 
 }
 
-TEST_CASE("IDS creates correct traversal ", "[weight=1][part=1][IDS]"){
-  Reddit red("tests/empty.csv");   // test case for 5 vertices
-
-  const Graph & g = red.getGraph();
-  vector<Vertex> path = red.IDS("1", "5", 2);   // since d=2, should return empty path
-
-  REQUIRE(path.size() == 0);  // empty path
-
-  // checking for valid path in progress - will update soon
-
-}
-
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("IDS creates the same path as BFS - Small", "[weight=1][part=1][IDS]"){
+TEST_CASE("IDS creates the same path as BFS - Small", "[weight=1][IDS]"){
   Reddit red("tests/small.csv"); //constructs reddit object using constructor
   
   int maxD = maxDepth(red, "1"); //gets maximum explorable depth from test source
   vector<Vertex> expected = red.BFS("1", "5"); //solution from BFS function
   vector<Vertex> actual = red.IDS("1", "5", maxD); //solution from IDS function
+  vector<Vertex> path = red.IDS("1", "5", 2);   // Since d=2, should return empty path
 
   REQUIRE(expected == actual);
+  REQUIRE(path.size() == 0);  // empty path
 }
 
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("IDS creates the same path as BFS - Medium", "[weight=1][part=1][IDS]"){
+TEST_CASE("IDS creates the same path as BFS - Medium", "[weight=1][IDS]"){
   Reddit red("tests/medium.csv"); //constructs reddit object using constructor
 
   int maxD = maxDepth(red, "D"); //gets maximum explorable depth from test source
@@ -277,7 +267,7 @@ TEST_CASE("IDS creates the same path as BFS - Medium", "[weight=1][part=1][IDS]"
 }
 
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("IDS creates the same path as BFS - Large #1", "[weight=1][part=1][IDS]"){
+TEST_CASE("IDS creates the same path as BFS - Large #1", "[weight=1][IDS]"){
   Reddit red("tests/large1.csv"); //constructs reddit object using constructor
 
   int maxD = maxDepth(red, "A"); //gets maximum explorable depth from test source
@@ -288,7 +278,7 @@ TEST_CASE("IDS creates the same path as BFS - Large #1", "[weight=1][part=1][IDS
 }
 
 // Traversal test cases expect path in reverse order destination <- source due to function optimization
-TEST_CASE("IDS creates the same path as BFS - Large #2", "[weight=1][part=1][IDS]"){
+TEST_CASE("IDS creates the same path as BFS - Large #2", "[weight=1][IDS]"){
   Reddit red("tests/large2.csv"); //constructs reddit object using constructor
 
   int maxD = maxDepth(red, "A"); //gets maximum explorable depth from test source
@@ -299,28 +289,28 @@ TEST_CASE("IDS creates the same path as BFS - Large #2", "[weight=1][part=1][IDS
 }
 
 
-TEST_CASE("DFS creates correct traversal ", "[weight=1][part=1]"){
-  Reddit red("tests/small.csv");   // test case for 5 vertices
+// TEST_CASE("DFS creates correct traversal ", "[weight=1]"){
+//   Reddit red("tests/small.csv");   // test case for 5 vertices
 
-  const Graph & g = red.getGraph();  
-  unordered_set<Vertex> visited;
-  stack<Vertex> s;
-  // assumed getAdjacent rotate ccw(?)
-  red.DFS("1", visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
+//   const Graph & g = red.getGraph();  
+//   unordered_set<Vertex> visited;
+//   stack<Vertex> s;
+//   // assumed getAdjacent rotate ccw(?)
+//   red.DFS("1", visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
   
-  REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
-  stack<Vertex> expected;
-  expected.push("5");
-  expected.push("4");
-  expected.push("2");
-  expected.push("3");
-  expected.push("1");
+//   REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
+//   stack<Vertex> expected;
+//   expected.push("5");
+//   expected.push("4");
+//   expected.push("2");
+//   expected.push("3");
+//   expected.push("1");
   
-  REQUIRE(expected == s);
+//   REQUIRE(expected == s);
 
-}
+// }
 
-TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][part=1][Tarjan]"){
+TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][Tarjan]"){
   Reddit red("tests/small.csv");
   
   vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}};
@@ -335,7 +325,7 @@ TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][part=1][
   REQUIRE(res == expected);
 }
 
-TEST_CASE("Tarjan's Strongly Connected Components - Medium", "[weight=1][part=1][Tarjan]"){
+TEST_CASE("Tarjan's Strongly Connected Components - Medium", "[weight=1][Tarjan]"){
   Reddit red("tests/medium.csv");
   
   vector<vector<Vertex>> expected = {{"A", "D", "E", "G", "H", "J", "K"}, {"B"}, {"C"}, {"F"}};
@@ -350,7 +340,7 @@ TEST_CASE("Tarjan's Strongly Connected Components - Medium", "[weight=1][part=1]
   REQUIRE(res == expected);
 }
 
-TEST_CASE("Tarjan's Strongly Connected Components - Large #1", "[weight=1][part=1][Tarjan]"){
+TEST_CASE("Tarjan's Strongly Connected Components - Large #1", "[weight=1][Tarjan]"){
   Reddit red("tests/large1.csv");
   
   vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}, {"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}, {"G"}, {"H"}, {"J"}, {"K"}};
@@ -365,7 +355,7 @@ TEST_CASE("Tarjan's Strongly Connected Components - Large #1", "[weight=1][part=
   REQUIRE(res == expected);
 }
 
-TEST_CASE("Tarjan's Strongly Connected Components - Large #2", "[weight=1][part=1][Tarjan]"){
+TEST_CASE("Tarjan's Strongly Connected Components - Large #2", "[weight=1][Tarjan]"){
   Reddit red("tests/large2.csv");
   
   vector<vector<Vertex>> expected = {{"1", "2", "3", "4", "5", "A", "C", "D", "F", "G", "H"}, {"B"}, {"E"}, {"J"}, {"K"}};
@@ -379,7 +369,7 @@ TEST_CASE("Tarjan's Strongly Connected Components - Large #2", "[weight=1][part=
   REQUIRE(res == expected);
 }
 
-TEST_CASE("Kosaraju's Strongly Connected Components - Small", "[weight=1][part=1][Kosaraju]"){
+TEST_CASE("Kosaraju's Strongly Connected Components - Small", "[weight=1][Kosaraju]"){
   Reddit red("tests/small.csv");
   
   vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}};
@@ -394,7 +384,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Small", "[weight=1][part=1
   REQUIRE(res == expected);
 }
 
-TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][part=1][Kosaraju]"){
+TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][Kosaraju]"){
   Reddit red("tests/medium.csv");
   
   vector<vector<Vertex>> expected = {{"A", "D", "E", "G", "H", "J", "K"}, {"B"}, {"C"}, {"F"}};
@@ -409,7 +399,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][part=
   REQUIRE(res == expected);
 }
 
-TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][part=1][Kosaraju]"){
+TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][Kosaraju]"){
   Reddit red("tests/large1.csv");
   
   vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}, {"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}, {"G"}, {"H"}, {"J"}, {"K"}};
@@ -424,7 +414,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][par
   REQUIRE(res == expected);
 }
 
-TEST_CASE("Kosaraju's Strongly Connected Components - Large #2", "[weight=1][part=1][Kosaraju]"){
+TEST_CASE("Kosaraju's Strongly Connected Components - Large #2", "[weight=1][Kosaraju]"){
   Reddit red("tests/large2.csv");
   
   vector<vector<Vertex>> expected = {{"1", "2", "3", "4", "5", "A", "C", "D", "F", "G", "H"}, {"B"}, {"E"}, {"J"}, {"K"}};
@@ -437,4 +427,48 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Large #2", "[weight=1][par
 
   sort(res.begin(), res.end());
   REQUIRE(res == expected);
+}
+
+TEST_CASE("Entire Graph DFS Traversal - Small", "[weight=1][DFSTraversal]"){
+  Reddit red("tests/small.csv");
+  
+  vector<Vertex> expected = red.getGraph().getVertices();
+  vector<Vertex> actual = red.TraversalDFS();
+
+  sort(expected.begin(), expected.end()); 
+  sort(actual.begin(), actual.end());
+  REQUIRE(actual == expected);
+}
+
+TEST_CASE("Entire Graph DFS Traversal - Medium", "[weight=1][DFSTraversal]"){
+  Reddit red("tests/medium.csv");
+  
+  vector<Vertex> expected = red.getGraph().getVertices();
+  vector<Vertex> actual = red.TraversalDFS();
+
+  sort(expected.begin(), expected.end()); 
+  sort(actual.begin(), actual.end());
+  REQUIRE(actual == expected);
+}
+
+TEST_CASE("Entire Graph DFS Traversal - Large #1", "[weight=1][DFSTraversal]"){
+  Reddit red("tests/large1.csv");
+  
+  vector<Vertex> expected = red.getGraph().getVertices();
+  vector<Vertex> actual = red.TraversalDFS();
+
+  sort(expected.begin(), expected.end()); 
+  sort(actual.begin(), actual.end());
+  REQUIRE(actual == expected);
+}
+
+TEST_CASE("Entire Graph DFS Traversal - Large #2", "[weight=1][DFSTraversal]"){
+  Reddit red("tests/large2.csv");
+  
+  vector<Vertex> expected = red.getGraph().getVertices();
+  vector<Vertex> actual = red.TraversalDFS();
+
+  sort(expected.begin(), expected.end()); 
+  sort(actual.begin(), actual.end());
+  REQUIRE(actual == expected);
 }

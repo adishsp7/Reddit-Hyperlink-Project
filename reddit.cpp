@@ -234,7 +234,7 @@ vector<Vertex> Reddit::IDS(string src, string goal, int depth)
 
     vector<Vertex> path; // intializes vector to store output path
     unordered_set<Vertex> visited; // initializes set to track visited vertices
-    for (int d = 0; d < depth; d++) // iteratively increases search depth
+    for (int d = 0; d <= depth; d++) // iteratively increases search depth
     { 
         if(IDSutil(visited, path, src, goal, d)) break; // if goal is found breaks from loop
         path.clear(); // clears path for next IDS

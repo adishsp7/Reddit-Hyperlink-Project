@@ -11,6 +11,7 @@
 #include <deque>
 #include <vector>
 #include <unordered_map>
+#include <chrono>
 
 using namespace std;
 
@@ -33,7 +34,6 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
 
 
     int num = 0;
-
     while(1) // loops forever - breaks when end of file is reached
     {
         getline(f, src, ','); // reads till first comma, inserts data in 'src'
@@ -67,7 +67,6 @@ Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and dir
             if(!attempt) cout << "Failed to insert transpose edge connecting '" << des << "' and '" << src << "'" << endl; // error message
         }
     }
-
     f.close(); // close .csv file
 }
 
@@ -259,67 +258,64 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
     visited.erase(node); // marks current vertex as unvisted
     return false; //goal not found
 }
-/*
+/**
  * Calls StronglyCCUtil to find strongly connected components
  * @param curr - Current vertex being observed
  * @param dfsnum - Unordered map that keeps track of which order each node was visited
  * @param low - Unordered map that is used to see which nodes are in the same compnent
- * @return Max depth of current node using DFS
+ * @param st - Stack that records DFS traversal
+ * @param visited - Unordered set that records what nodes are in the stack
+ * @param result - 2D vector that stores the strongly connected components
  */
-void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> & dfsnum, unordered_map<Vertex, int> & low, stack<Vertex> & st, unordered_map<Vertex, bool> & visited) {
-    static int time = 0; 
+void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> & dfsnum, unordered_map<Vertex, int> & low, stack<Vertex> & st, unordered_set<Vertex> & visited, vector<vector<Vertex>> & result) {
+    static int time = 1; // sets a static variable that keeps records the order that nodes are reached
   
-    dfsnum[curr] = low[curr] = ++time; 
-    st.push(curr); 
-    visited[curr] = true; 
+    dfsnum[curr] = low[curr] = ++time; // sets dfsnum and low to be time and increments time
+    st.push(curr); // pushes vertex to stack
+    visited.insert(curr); // Sets that vertex is in the stack
   
-    vector<Vertex> adj = g_.getAdjacent(curr);
-    for (unsigned i = 0 ; i < adj.size() ; i++) { 
-        Vertex child = adj[i];
+    vector<Vertex> adj = g_.getAdjacent(curr); // gets all adjacent vertices
+    for (unsigned i = 0 ; i < adj.size() ; i++){ // Iterates through adjacent vertices
+        Vertex child = adj[i]; // assignes child to adjacent vertex of the current vertex
   
-        if (dfsnum[child] == -1) { 
-            StronglyCCUtil(child, dfsnum, low, st, visited);
-            low[curr]  = min(low[curr], low[child]); 
+        if (dfsnum[child] == 0) { // checks if child has been visited
+            StronglyCCUtil(child, dfsnum, low, st, visited, result); // DFS iterates through adjacent vertices
+            low[curr]  = min(low[curr], low[child]); // On the back track, assigns current low to the minimum of low[curr] and low[child]
         } 
   
-        else if (visited[child] == true) 
-            low[curr]  = min(low[curr], dfsnum[child]); 
+        else if (visited.find(child) != visited.end()) // checks if child is added to the stack
+            low[curr]  = min(low[curr], dfsnum[child]);  // assigns current low to the minimum of low[curr] and dfsnum[child]
     } 
     Vertex w;
-    if (low[curr] == dfsnum[curr]){
-        result.push_back({});
-        while (st.top() != curr){ 
-            w = st.top();
-            result.back().push_back(w);
-            visited[w] = false;
-            st.pop(); 
-        } 
-        w = st.top();
-        result.back().push_back(w);
-        visited[w] = false; 
-        st.pop(); 
+    if (low[curr] == dfsnum[curr]){ // Checks if the order visited equals the lowest value visited
+        result.push_back({}); // Adds blank vector to add strongly connected components
+        while (st.top() != curr){ // iterates through stack until current node is found
+            w = st.top(); // sets w to the top of the stack
+            result.back().push_back(w); // pushes top of the stack onto the result vector
+            visited.erase(w); // Updates that vertex w is no longer on the stack
+            st.pop(); // pops vertex from the stack
+        }
+        w = st.top(); // sets w to the top of the stack
+        result.back().push_back(w); // pushes top of the stack onto the result vector
+        visited.erase(w); // Updates that vertex w is no longer on the stack
+        st.pop(); // pops vertex from the stack
     } 
 } 
 
 vector<vector<Vertex>> Reddit::StronglyCC() {
-    vector<Vertex> vertices = g_.getVertices();
-    unordered_map<Vertex, int> dfsnum;
-    unordered_map<Vertex, int> low;
-    unordered_map<Vertex, bool> visited;
-    stack<Vertex> st;
-  
-    for (unsigned i = 0; i < vertices.size(); i++) { 
-        dfsnum[vertices[i]] = -1; 
-        low[vertices[i]] = -1; 
-        visited[vertices[i]] = false; 
-    } 
+    vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
+    vector<vector<Vertex>> result; // 2D vector that stores the strongly connected components
+    unordered_map<Vertex, int> dfsnum; // Unordered map that stores the order that node is reached
+    unordered_map<Vertex, int> low; // Unordered map that identifies which strongly connected component a node is in
+    unordered_set<Vertex> visited; // Unordered set to track vertices currently in the stack
+    stack<Vertex> st; // Stack of vertices to store order of exploration of graph(g_)
 
-    for (unsigned i = 0; i < vertices.size(); i++){
-        if (dfsnum[vertices[i]] == -1){
-            StronglyCCUtil(vertices[i], dfsnum, low, st, visited);
+    for (unsigned i = 0; i < vertices.size(); i++){ // iterates through all unexplored vertices
+        if (dfsnum[vertices[i]] == 0){ // checks if vertex has been reached
+            StronglyCCUtil(vertices[i], dfsnum, low, st, visited, result); // fills result with strongly connected components given a vertex
         }
     }
-    return result;
+    return result; // returns list of all strongly connected components for this graph
 } 
 
 void Reddit::printPath(vector<Vertex> vertices)

@@ -8,14 +8,15 @@
 void sccSpeed(Reddit & r);
 void sccSpeed(Reddit & r)
 {
+
   auto t1 = std::chrono::high_resolution_clock::now();
   r.SCCs();
   auto t2 = std::chrono::high_resolution_clock::now();
   r.StronglyCC();
   auto t3 = std::chrono::high_resolution_clock::now();
 
-  auto duration1 = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
-  auto duration2 = std::chrono::duration_cast<std::chrono::microseconds>( t3 - t2 ).count();
+  auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count();
+  auto duration2 = std::chrono::duration_cast<std::chrono::milliseconds>( t3 - t2 ).count();
 
   std::cout << "Kosaraju's Algo: " << duration1 << std::endl; 
   std::cout << "Tarjan's Algo: " << duration2 << std::endl;
@@ -26,10 +27,17 @@ int main() {
   // Reddit red("tests/small.csv");
   // Reddit red("tests/medium.csv");
   // Reddit red("tests/large2.csv");
-  
   Reddit red("data/connected.csv");
+  // sccSpeed(red);
+
+  // auto t1 = std::chrono::high_resolution_clock::now();
+  // red.TraversalDFS();
+  // auto t2 = std::chrono::high_resolution_clock::now();
   
-    
+
+  // auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count();
+  // std::cout << "DFS runtime: " << duration1 << std::endl; 
+
   std::cout << "Graph Constructed!" << std::endl; 
   red.printPath(red.BFS("rarepuppers", "erieco"));
   red.printPath(red.IDS("rarepuppers", "erieco", 4));
@@ -109,3 +117,14 @@ int main() {
 // Not reversing before returning:
 // Average time for BFS: 51.378 ms
 // Average time for IDS: 99.102 ms
+
+//Constructor: 18
+//Kosaraju's Algo: 508
+//Tarjan's Algo: 696
+//DFS runtime: 248
+
+// Updated:
+// Constructor: 16
+// Kosaraju's Algo: 547
+// Tarjan's Algo: 645
+// DFS runtime: 261

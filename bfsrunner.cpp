@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv) 
 {
-    if(argc < 4)
+    if(argc != 4)
     {
         std::cout << "Function requires arguments: [Filepath to data set] [Source Subreddit] [Target Subreddit]" << std::endl; 
     }

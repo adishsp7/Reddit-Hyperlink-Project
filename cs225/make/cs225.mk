@@ -33,13 +33,23 @@ CXXFLAGS += $(CS225) -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) $(DEPFILE_FLAGS) 
 LDFLAGS += $(CS225) -std=c++1y -stdlib=libc++ -lc++abi
 
 # Rule for `all` (first/default rule):
-all: $(EXE)
+all: $(EXE) BFS IDS SCC
 
 # Rule for linking the final executable:
 # - $(EXE) depends on all object files in $(OBJS)
 # - `patsubst` function adds the directory name $(OBJS_DIR) before every object file
 $(EXE): output_msg $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS))
 	$(LD) $(filter-out $<, $^) $(LDFLAGS) -o $@
+
+
+BFS: $(patsubst %.o, $(OBJS_DIR)/%.o, $(BFS_OBJS))
+	$(LD) $(patsubst %.o, $(OBJS_DIR)/%.o, $(BFS_OBJS)) $(LDFLAGS) -o BFS
+
+IDS: $(patsubst %.o, $(OBJS_DIR)/%.o, $(IDS_OBJS))
+	$(LD) $(patsubst %.o, $(OBJS_DIR)/%.o, $(IDS_OBJS)) $(LDFLAGS) -o IDS
+
+SCC: $(patsubst %.o, $(OBJS_DIR)/%.o, $(SCC_OBJS))
+	$(LD) $(patsubst %.o, $(OBJS_DIR)/%.o, $(SCC_OBJS)) $(LDFLAGS) -o SCC
 
 # Ensure .objs/ exists:
 $(OBJS_DIR):
@@ -102,9 +112,10 @@ output_msg: ; $(CLANG_VERSION_MSG)
 
 # Standard C++ Makefile rules:
 clean:
-	rm -rf $(EXE) $(TEST) $(OBJS_DIR) $(CLEAN_RM) *.o *.d
+	rm -rf $(EXE) BFS IDS SCC $(TEST) $(OBJS_DIR) $(CLEAN_RM) *.o *.d
 
 tidy: clean
 	rm -rf doc
+
 
 .PHONY: all tidy clean output_msg

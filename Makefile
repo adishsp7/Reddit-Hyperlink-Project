@@ -1,10 +1,14 @@
 # Executable names:
-EXE = final
+EXE = TA 
 TEST = test
 
 # Add all object files needed for compiling:
-EXE_OBJ = main.o
-OBJS = graph.o main.o reddit.o
+EXE_OBJ = datasetTesting.o
+BFS_OBJS = bfsrunner.o reddit.o graph.o
+IDS_OBJS = idsrunner.o reddit.o graph.o
+SCC_OBJS = sccrunner.o reddit.o graph.o
+OBJS = graph.o datasetTesting.o reddit.o
+
 
 # Use the cs225 makefile template:
 include cs225/make/cs225.mk

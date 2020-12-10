@@ -30,6 +30,9 @@ int main() {
   Reddit red("data/connected.csv");
   // sccSpeed(red);
 
+  // Graph copy = red.getTranspose();
+  // red.StronglyCC();
+
   // auto t1 = std::chrono::high_resolution_clock::now();
   // red.TraversalDFS();
   // auto t2 = std::chrono::high_resolution_clock::now();
@@ -38,9 +41,9 @@ int main() {
   // auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count();
   // std::cout << "DFS runtime: " << duration1 << std::endl; 
 
-  std::cout << "Graph Constructed!" << std::endl; 
-  red.printPath(red.BFS("rarepuppers", "erieco"));
-  red.printPath(red.IDS("rarepuppers", "erieco", 4));
+  // std::cout << "Graph Constructed!" << std::endl; 
+  // red.printPath(red.BFS("rarepuppers", "erieco"));
+  // red.printPath(red.IDS("rarepuppers", "erieco", 4));
 
   // std::cout << red.getSentiment(red.BFS("1", "3")) << std::endl;
   // std::cout << red.getSentiment(red.BFS("1", "2")) << std::endl;
@@ -57,17 +60,30 @@ int main() {
   // sort(actual.begin(), actual.end());
   // if(expected == actual) std::cout << "Gottem" << std::endl; 
 
-  // vector<Vertex> path = red.IDS("rarepuppers", "erieco", 5);
-  // red.printPath(path);
+  std::cout << "BFS: " << std::endl; 
+  vector<Vertex> path1 = red.BFS("518circlejerk", "ironscape");
+  red.printPath(path1);
+  std::cout << "Path sentiment: " << red.getSentiment(path1) << std::endl;
+
+  std::cout << "\nIDS: " << std::endl; 
+  vector<Vertex> path2 = red.IDS("518circlejerk", "ironscape", 3);
+  red.printPath(path2);
+  std::cout << "Path sentiment: " << red.getSentiment(path2) << std::endl;
 
 
   // vector<vector<Vertex>> sccs = red.SCCs();  
-
+  // int count = 0;
+  // int total = 0;
   // for(size_t x = 0; x < sccs.size(); x++)
   // {
   //   size_t sz = sccs[x].size();
-  //   if(sz > 2) std::cout << sz << std::endl;
+  //   //if(sz > 2) std::cout << sz << std::endl;
+  //   total += sz;
+  //   if(sz < 2) count++;
   // }
+  // std::cout << red.getGraph().getVertices().size() << std::endl;
+  // std::cout << total << std::endl;
+  // std::cout << count << std::endl;
 
   // int bfs = 0;
   // int ids = 0;
@@ -106,6 +122,25 @@ int main() {
 // Average time for IDS: 118.075 ms
 // Memeory Allocated BFS:  6.191528 MB 
 // Memeory Allocated IDS: 14.629688 MB
+
+
+
+
+// *****************************Search Time & Memory Test*******************************
+// Tests between Kosaraju vs Tarjan
+// Baseline: total heap usage: 685,787 allocs, 685,787 frees, 77,193,512 bytes allocated
+// Kosaraju: total heap usage: 1,331,200 allocs, 1,331,200 frees, 160,113,164 bytes allocated
+// Tarjan: total heap usage: 971,122 allocs, 971,122 frees, 110,370,172 bytes allocated
+// Memeory Allocated Kosaraju: 82.919552 MB 
+// Memeory Allocated Tarjan: 33.176560 MB
+
+// *****************************Search Time & Memory Test*******************************
+// Tests between Kosaraju vs Tarjan
+// Baseline: total heap usage: 685,787 allocs, 685,787 frees, 77,193,512 bytes allocated
+// Kosaraju: total heap usage: 1,018,752 allocs, 1,018,752 frees, 124,308,792 bytes allocated
+// Tarjan: total heap usage: 971,122 allocs, 971,122 frees, 110,370,172 bytes allocated
+// Memeory Allocated Kosaraju: 47.115280 MB 
+// Memeory Allocated Tarjan: 33.176560 MB
 
 
 // Time comparison for reversing traversal path vs not reversing traversal path:

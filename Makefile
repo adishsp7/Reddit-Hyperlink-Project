@@ -1,6 +1,6 @@
 # Executable names:
 EXE = TA 
-TEST = test
+TEST = Test
 
 # Add all object files needed for compiling:
 EXE_OBJ = datasetTesting.o

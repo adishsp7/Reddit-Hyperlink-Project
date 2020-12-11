@@ -1,21 +1,10 @@
 #include "reddit.h"
-#include "graph.h"
-#include "edge.h"
-#include <iostream> 
-#include <sstream> 
-#include <fstream>
-#include <string>
-#include <queue>
-#include <stack>
-#include <list>
-#include <deque>
-#include <vector>
-#include <unordered_map>
-#include <chrono>
-
 using namespace std;
 
-
+/**
+ * Constructor
+ * @param filename - filepath of dataset
+ */
 Reddit::Reddit(string filename) : g_() , gT_()// create empty, weighted, and directed graph and its transpose
 {
     ifstream f(filename); //input file stream - file pointer
@@ -124,77 +113,10 @@ vector<Vertex> Reddit::BFS(Vertex src, Vertex goal)
     }
     return path; // returns reverse path
 }
-vector<Vertex> Reddit::TraversalDFS()
-{
-    unordered_set<Vertex> visited; // Unordered set to track visited vertices
-    vector<Vertex> explored;
-    vector<Vertex> vertices = g_.getVertices();
-    for(size_t i = 0; i < vertices.size(); i++)
-    {
-        if(visited.find(vertices[i]) == visited.end()) // checks if vertex is unvisited
-        {
-            SCCUtil(vertices[i], g_, visited, explored);
-        }
-    }
-    return explored;
-}
-
-
-vector<vector<Vertex>> Reddit::SCCs()
-{
-    vector<vector<Vertex>> res; // Vector to store Strongly Connected Components
-    vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
-    unordered_set<Vertex> visited; // Unordered set to track visited vertices
-    vector<Vertex> s; // Stack of vertices to store order of exploration of graph(g_)
-    for(size_t i = 0; i < vertices.size(); i++) // iterate over all vertices in graph
-    {
-        if(visited.find(vertices[i]) == visited.end()) // checks if vertex is unvisted in g_
-        {
-            SCCUtil(vertices[i], g_, visited, s); // fills stack(s) with vertices reachable via DFS from this vertex
-        }
-    }
-
-    visited.clear(); // clears unordered set in order to track visited vertices of graph transpose
-    
-    while(!s.empty()) // loops till SCCs of each vertex have been found 
-    {
-        Vertex curr = s.back(); // gets top vertex from exploration order stack
-        s.pop_back(); // removes top vertex from exploration order stack
-        if(visited.find(curr) == visited.end()) // checks if vertex is unvisted in gT_
-        {
-            vector<Vertex> scc; // Stack of vertices to store SCCs of a given vertex
-            SCCUtil(curr, gT_, visited, scc); // fills stack(ssc) with SCCs of this vertex
-            res.push_back(scc);
-        }
-    }
-    return res; // returns list of all strongly connected components for this graph
-}
-
-/**
- * DFS utility for strongly connected components
- * @param src - Source vertex
- * @param g - Aliases graph(g_) or graph transpose(gT_)
- * @param visited - Unordered set to keep track of visited nodes
- * @param s - Stack to build order of exploration during non-transpose call and to store SCCs in transpose call
- */
-void Reddit::SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, vector<Vertex> & s)
-{
-    visited.insert(src); // marks vertex as visted
-    vector<Vertex> vertex_list = g.getAdjacent(src);  // get a list of adjacent vertices
-    for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
-    {
-        if(visited.find(vertex_list[i]) == visited.end()) // checks if this adjecent vertex is unvisted
-        {
-            SCCUtil(vertex_list[i], g, visited, s); // calls DFS recursively on adjecent vertex
-        }
-    }
-    s.push_back(src); //add vertex to the stack - see parameters for more detailed explanation of utility
-}
-
 
 
 /**
- * Calls IDSutil iteratively increasing depth after every iteration 
+ * Iterative Deepening Search - Calls IDSutil iteratively increasing depth after every iteration 
  * @param src - Source vertex
  * @param goal - Target vertex
  * @return DFS path in reverse
@@ -258,8 +180,84 @@ bool Reddit::IDSutil(unordered_set<Vertex> & visited, vector<Vertex> & path, Ver
     visited.erase(node); // marks current vertex as unvisted
     return false; //goal not found
 }
+
 /**
- * Calls StronglyCCUtil to find strongly connected components
+ * Kosaraju's Strongly Connected Components
+ * @return - Vector of all Strongly Connected Components represented as vectors of vertices
+ */
+vector<vector<Vertex>> Reddit::SCCs()
+{
+    vector<vector<Vertex>> res; // Vector to store Strongly Connected Components
+    vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
+    unordered_set<Vertex> visited; // Unordered set to track visited vertices
+    vector<Vertex> s; // Stack of vertices to store order of exploration of graph(g_)
+    for(size_t i = 0; i < vertices.size(); i++) // iterate over all vertices in graph
+    {
+        if(visited.find(vertices[i]) == visited.end()) // checks if vertex is unvisted in g_
+        {
+            SCCUtil(vertices[i], g_, visited, s); // fills stack(s) with vertices reachable via DFS from this vertex
+        }
+    }
+
+    visited.clear(); // clears unordered set in order to track visited vertices of graph transpose
+    
+    while(!s.empty()) // loops till SCCs of each vertex have been found 
+    {
+        Vertex curr = s.back(); // gets top vertex from exploration order stack
+        s.pop_back(); // removes top vertex from exploration order stack
+        if(visited.find(curr) == visited.end()) // checks if vertex is unvisted in gT_
+        {
+            vector<Vertex> scc; // Stack of vertices to store SCCs of a given vertex
+            SCCUtil(curr, gT_, visited, scc); // fills stack(ssc) with SCCs of this vertex
+            res.push_back(scc);
+        }
+    }
+    return res; // returns list of all strongly connected components for this graph
+}
+
+/**
+ * DFS utility for Kosaraju's strongly connected components
+ * @param src - Source vertex
+ * @param g - Aliases graph(g_) or graph transpose(gT_)
+ * @param visited - Unordered set to keep track of visited nodes
+ * @param s - Stack to build order of exploration during non-transpose call and to store SCCs in transpose call
+ */
+void Reddit::SCCUtil(Vertex src, Graph & g, unordered_set<Vertex> & visited, vector<Vertex> & s)
+{
+    visited.insert(src); // marks vertex as visted
+    vector<Vertex> vertex_list = g.getAdjacent(src);  // get a list of adjacent vertices
+    for (size_t i = 0; i < vertex_list.size(); i++) // iterates over adjecent vertices
+    {
+        if(visited.find(vertex_list[i]) == visited.end()) // checks if this adjecent vertex is unvisted
+        {
+            SCCUtil(vertex_list[i], g, visited, s); // calls DFS recursively on adjecent vertex
+        }
+    }
+    s.push_back(src); //add vertex to the stack - see parameters for more detailed explanation of utility
+}
+
+/**
+ * Tarjans's Strongly Connected Components
+ * @return - Vector of all Strongly Connected Components represented as vectors of vertices
+ */
+vector<vector<Vertex>> Reddit::StronglyCC() {
+    vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
+    vector<vector<Vertex>> result; // 2D vector that stores the strongly connected components
+    unordered_map<Vertex, int> dfsnum; // Unordered map that stores the order that node is reached
+    unordered_map<Vertex, int> low; // Unordered map that identifies which strongly connected component a node is in
+    unordered_set<Vertex> visited; // Unordered set to track vertices currently in the stack
+    stack<Vertex> st; // Stack of vertices to store order of exploration of graph(g_)
+
+    for (unsigned i = 0; i < vertices.size(); i++){ // iterates through all unexplored vertices
+        if (dfsnum[vertices[i]] == 0){ // checks if vertex has been reached
+            StronglyCCUtil(vertices[i], dfsnum, low, st, visited, result); // fills result with strongly connected components given a vertex
+        }
+    }
+    return result; // returns list of all strongly connected components for this graph
+} 
+
+/**
+ * StronglyCCUtil to find strongly connected components
  * @param curr - Current vertex being observed
  * @param dfsnum - Unordered map that keeps track of which order each node was visited
  * @param low - Unordered map that is used to see which nodes are in the same compnent
@@ -302,63 +300,82 @@ void Reddit::StronglyCCUtil(Vertex curr, unordered_map<Vertex, int> & dfsnum, un
     } 
 } 
 
-vector<vector<Vertex>> Reddit::StronglyCC() {
-    vector<Vertex> vertices = g_.getVertices(); // Gets list of all vertices needed to be explored
-    vector<vector<Vertex>> result; // 2D vector that stores the strongly connected components
-    unordered_map<Vertex, int> dfsnum; // Unordered map that stores the order that node is reached
-    unordered_map<Vertex, int> low; // Unordered map that identifies which strongly connected component a node is in
-    unordered_set<Vertex> visited; // Unordered set to track vertices currently in the stack
-    stack<Vertex> st; // Stack of vertices to store order of exploration of graph(g_)
-
-    for (unsigned i = 0; i < vertices.size(); i++){ // iterates through all unexplored vertices
-        if (dfsnum[vertices[i]] == 0){ // checks if vertex has been reached
-            StronglyCCUtil(vertices[i], dfsnum, low, st, visited, result); // fills result with strongly connected components given a vertex
+/**
+ * Full Graph Traversal using DFS
+ * @return - Vector of all vertices in graph
+ */
+vector<Vertex> Reddit::TraversalDFS()
+{
+    vector<Vertex> explored; // Vector to store all vertices in graph explored through DFS
+    unordered_set<Vertex> visited; // Unordered set to track visited vertices
+    vector<Vertex> vertices = g_.getVertices(); // Gets vector of all vertices in graph
+    for(size_t i = 0; i < vertices.size(); i++) // Iterates over all vertices
+    {
+        if(visited.find(vertices[i]) == visited.end()) // Checks if vertex is unvisited
+        {
+            SCCUtil(vertices[i], g_, visited, explored); // If unexplored, DFSs from this vertex and adds all reachable vertices
         }
     }
-    return result; // returns list of all strongly connected components for this graph
-} 
+    return explored; // Returns vector of all vertices in graph explored through DFS
+}
 
+/**
+ * Path Printing
+ * @param vertices - Vector of vertices representing a traversed path
+ */
 void Reddit::printPath(vector<Vertex> vertices)
 {
-  if(vertices.empty()) 
+  if(vertices.empty()) // Checks if input path is empty
   {
-    std::cout << "Empty Path!" << std::endl;
-    return;
+    cout << "Empty Path!" << endl; // Prints error message
+    return; // Returns
   }
 
-  for(auto it = vertices.rbegin(); it != vertices.rend(); ++it)
+  for(auto it = vertices.rbegin(); it != vertices.rend(); ++it) // Iterates vector in reverse since vertices are added in reverse
   {
-    cout << (*it) << " ";
-    if(it + 1 != vertices.rend()) cout << "-> ";
+    cout << (*it) << " "; // Prints vertex
+    if(it + 1 != vertices.rend()) cout << "-> "; // Prints arrow indication path
   }
-  cout << endl;
+  cout << endl; // Prints to next line
 }
 
+/**
+ * Calculates path sentiment
+ * @param vertices - Vector of vertices representing a traversed path
+ */
 float Reddit::getSentiment(vector<Vertex> vertices)
 {
-  if(vertices.empty()) 
+  if(vertices.size() < 2) // Checks if input path is long enough
   {
-    cout << "Empty Path!" << endl;
-    return 0;
+    cout << "Empty Path!" << endl; // Prints error message
+    return -1; // Returns -1
   }
 
-  int edges = 0;
-  float sentiment = 0;
+  int edges = 0; // Initializes count
+  float sentiment = 0; // Initializes sentiment
   
-  for(size_t i = 1; i < vertices.size(); i++)
+  for(size_t i = 1; i < vertices.size(); i++) // Iterates over vertices starting from second vertex
   {
-    float count = stof(g_.getEdgeLabel(vertices[i], vertices[i-1]));
-    int weight = g_.getEdgeWeight(vertices[i], vertices[i-1]);
-    sentiment += (weight/count);
-    edges++;
+    float count = stof(g_.getEdgeLabel(vertices[i], vertices[i-1])); // Gets edgelabel - representing number of multiedges added - between current and previous vertex 
+    int weight = g_.getEdgeWeight(vertices[i], vertices[i-1]); // Gets edgeweight between current and previous vertex
+    sentiment += (weight/count); // Adds average sentiment to sentiment tracker
+    edges++; // Increments number of edges explored
   }
-  return sentiment/edges;
+  return sentiment/edges; // Returns average sentiment of path 
 }
 
+/**
+ * Gets Graph
+ * @return - Graph object representing the graph of the dataset
+ */
 const Graph & Reddit::getGraph() const{
-    return g_;
+    return g_; // Returns graph
 }
 
+/**
+ * Gets Graph Transpose
+ * @return - Graph object representing the graph transpose of the dataset
+ */
 const Graph & Reddit::getTranspose() const{
-    return gT_;
+    return gT_; // Returns graph transpose
 }

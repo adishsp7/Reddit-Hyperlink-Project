@@ -33,7 +33,7 @@ CXXFLAGS += $(CS225) -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) $(DEPFILE_FLAGS) 
 LDFLAGS += $(CS225) -std=c++1y -stdlib=libc++ -lc++abi
 
 # Rule for `all` (first/default rule):
-all: $(EXE) BFS IDS SCC
+all: $(EXE) BFS IDS SCC FullTraversal
 
 # Rule for linking the final executable:
 # - $(EXE) depends on all object files in $(OBJS)
@@ -50,6 +50,9 @@ IDS: $(patsubst %.o, $(OBJS_DIR)/%.o, $(IDS_OBJS))
 
 SCC: $(patsubst %.o, $(OBJS_DIR)/%.o, $(SCC_OBJS))
 	$(LD) $(patsubst %.o, $(OBJS_DIR)/%.o, $(SCC_OBJS)) $(LDFLAGS) -o SCC
+
+FullTraversal: $(patsubst %.o, $(OBJS_DIR)/%.o, $(DFS_OBJS))
+	$(LD) $(patsubst %.o, $(OBJS_DIR)/%.o, $(DFS_OBJS)) $(LDFLAGS) -o FullTraversal
 
 # Ensure .objs/ exists:
 $(OBJS_DIR):
@@ -112,7 +115,7 @@ output_msg: ; $(CLANG_VERSION_MSG)
 
 # Standard C++ Makefile rules:
 clean:
-	rm -rf $(EXE) BFS IDS SCC $(TEST) $(OBJS_DIR) $(CLEAN_RM) *.o *.d
+	rm -rf $(EXE) BFS IDS SCC FullTraversal $(TEST) $(OBJS_DIR) $(CLEAN_RM) *.o *.d
 
 tidy: clean
 	rm -rf doc

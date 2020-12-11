@@ -7,6 +7,7 @@ EXE_OBJ = datasetTesting.o
 BFS_OBJS = bfsrunner.o reddit.o graph.o
 IDS_OBJS = idsrunner.o reddit.o graph.o
 SCC_OBJS = sccrunner.o reddit.o graph.o
+DFS_OBJS = fulltraversal.o reddit.o graph.o
 OBJS = graph.o datasetTesting.o reddit.o
 
 

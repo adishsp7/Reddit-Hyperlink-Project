@@ -283,18 +283,19 @@ TEST_CASE("IDS creates the same path as BFS - Large #2", "[weight=1][IDS]"){
 TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][Tarjan]"){
   Reddit red("tests/small.csv");
   
-  vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}};
-  vector<vector<Vertex>> res = red.StronglyCC(); 
+  vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}}; // expected sccs in sorted order
+  vector<vector<Vertex>> res = red.StronglyCC(); //get scc output
 
-  for(size_t i = 0; i < res.size(); i++)
+  for(size_t i = 0; i < res.size(); i++) // iterate over all sccs found
   {
-    sort(res[i].begin(), res[i].end());   
+    sort(res[i].begin(), res[i].end()); // sort scc lexicographically
   }
 
-  sort(res.begin(), res.end());
+  sort(res.begin(), res.end()); // sort all sccs lexicographically
   REQUIRE(res == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Tarjan's Strongly Connected Components - Medium", "[weight=1][Tarjan]"){
   Reddit red("tests/medium.csv");
   
@@ -310,6 +311,7 @@ TEST_CASE("Tarjan's Strongly Connected Components - Medium", "[weight=1][Tarjan]
   REQUIRE(res == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Tarjan's Strongly Connected Components - Large #1", "[weight=1][Tarjan]"){
   Reddit red("tests/large1.csv");
   
@@ -325,6 +327,7 @@ TEST_CASE("Tarjan's Strongly Connected Components - Large #1", "[weight=1][Tarja
   REQUIRE(res == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Tarjan's Strongly Connected Components - Large #2", "[weight=1][Tarjan]"){
   Reddit red("tests/large2.csv");
   
@@ -342,18 +345,19 @@ TEST_CASE("Tarjan's Strongly Connected Components - Large #2", "[weight=1][Tarja
 TEST_CASE("Kosaraju's Strongly Connected Components - Small", "[weight=1][Kosaraju]"){
   Reddit red("tests/small.csv");
   
-  vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}};
-  vector<vector<Vertex>> res = red.SCCs();
+  vector<vector<Vertex>> expected = {{"1"}, {"2", "4", "5"}, {"3"}}; // expected sccs in sorted order
+  vector<vector<Vertex>> res = red.SCCs(); //get scc output
 
-  for(size_t i = 0; i < res.size(); i++)
+  for(size_t i = 0; i < res.size(); i++) // iterate over all sccs found
   {
-    sort(res[i].begin(), res[i].end());   
+    sort(res[i].begin(), res[i].end()); // sort scc lexicographically
   }
 
-  sort(res.begin(), res.end());
+  sort(res.begin(), res.end()); // sort all sccs lexicographically
   REQUIRE(res == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][Kosaraju]"){
   Reddit red("tests/medium.csv");
   
@@ -369,6 +373,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Medium", "[weight=1][Kosar
   REQUIRE(res == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][Kosaraju]"){
   Reddit red("tests/large1.csv");
   
@@ -384,6 +389,7 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Large #1", "[weight=1][Kos
   REQUIRE(res == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Kosaraju's Strongly Connected Components - Large #2", "[weight=1][Kosaraju]"){
   Reddit red("tests/large2.csv");
   
@@ -402,14 +408,15 @@ TEST_CASE("Kosaraju's Strongly Connected Components - Large #2", "[weight=1][Kos
 TEST_CASE("Entire Graph DFS Traversal - Small", "[weight=1][DFSTraversal]"){
   Reddit red("tests/small.csv");
   
-  vector<Vertex> expected = red.getGraph().getVertices();
-  vector<Vertex> actual = red.TraversalDFS();
+  vector<Vertex> expected = red.getGraph().getVertices(); //get all vertices in graph
+  vector<Vertex> actual = red.TraversalDFS(); //get output of full graph traversal
 
-  sort(expected.begin(), expected.end()); 
-  sort(actual.begin(), actual.end());
+  sort(expected.begin(), expected.end()); // sort graph vertices lexicographically
+  sort(actual.begin(), actual.end()); // sort full graph traversal lexicographically
   REQUIRE(actual == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Entire Graph DFS Traversal - Medium", "[weight=1][DFSTraversal]"){
   Reddit red("tests/medium.csv");
   
@@ -421,6 +428,7 @@ TEST_CASE("Entire Graph DFS Traversal - Medium", "[weight=1][DFSTraversal]"){
   REQUIRE(actual == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Entire Graph DFS Traversal - Large #1", "[weight=1][DFSTraversal]"){
   Reddit red("tests/large1.csv");
   
@@ -432,6 +440,7 @@ TEST_CASE("Entire Graph DFS Traversal - Large #1", "[weight=1][DFSTraversal]"){
   REQUIRE(actual == expected);
 }
 
+//Check small test case for comments
 TEST_CASE("Entire Graph DFS Traversal - Large #2", "[weight=1][DFSTraversal]"){
   Reddit red("tests/large2.csv");
   

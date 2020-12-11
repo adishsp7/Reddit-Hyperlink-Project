@@ -19,7 +19,7 @@ void sccSpeed(Reddit & r)
 
 int main() 
 {
-  // Sample function calls:
+  std::cout << "This is a testing file to test custom function calls. We hope you enjoy our project!" << std::endl;
   Reddit red("data/connected.csv"); // Creates reddit object
   // WARNING: Due to our large dataset, Both SCC implementations will run into Stack Overflow
   // Set stack size to unlimited using "ulimit -s unlimited" before calling DFSTraversal(), SCCs(), or StronglyCC()

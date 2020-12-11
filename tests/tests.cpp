@@ -1,17 +1,9 @@
 #include "../cs225/catch/catch.hpp"
 #include "../reddit.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <stack>
-#include <unordered_set>
 
-
-//using namespace cs225;
 using namespace std;
-int maxDepth(Reddit & red, Vertex src);
-int dUtil(const Graph & g, unordered_map<Vertex, int> & depth, Vertex node);
+int maxDepth(Reddit & red, Vertex src); // declares depth function used for IDS testing
+int dUtil(const Graph & g, unordered_map<Vertex, int> & depth, Vertex node); // declares depth function utility
 
 /**
  * Returns Max depth of vertex in reddit graph
@@ -21,13 +13,13 @@ int dUtil(const Graph & g, unordered_map<Vertex, int> & depth, Vertex node);
  */
 int maxDepth(Reddit & red, Vertex src)
 {
-    const Graph & g = red.getGraph();
-    if(g.vertexExists(src))
+    const Graph & g = red.getGraph(); // gets graph object
+    if(g.vertexExists(src)) //checks if search vertex exists
     {
       unordered_map<Vertex, int> depth; // initializes depth map
       return dUtil(g, depth, src); // starts recursion for src node
     }
-    return -1;
+    return -1; //error handling
 }
 
 /**
@@ -287,28 +279,6 @@ TEST_CASE("IDS creates the same path as BFS - Large #2", "[weight=1][IDS]"){
 
   REQUIRE(expected == actual);
 }
-
-
-// TEST_CASE("DFS creates correct traversal ", "[weight=1]"){
-//   Reddit red("tests/small.csv");   // test case for 5 vertices
-
-//   const Graph & g = red.getGraph();  
-//   unordered_set<Vertex> visited;
-//   stack<Vertex> s;
-//   // assumed getAdjacent rotate ccw(?)
-//   red.DFS("1", visited, s);    // s from bottom to top = 5, 4, 2, 3, 1, visited = [1, 3, 2, 4, 5]
-  
-//   REQUIRE(s.size() == 5);     // check if stack traversed all 5 vertices
-//   stack<Vertex> expected;
-//   expected.push("5");
-//   expected.push("4");
-//   expected.push("2");
-//   expected.push("3");
-//   expected.push("1");
-  
-//   REQUIRE(expected == s);
-
-// }
 
 TEST_CASE("Tarjan's Strongly Connected Components - Small", "[weight=1][Tarjan]"){
   Reddit red("tests/small.csv");

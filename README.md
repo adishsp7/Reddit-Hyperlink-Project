@@ -1,5 +1,5 @@
-<h1 align=”center”> CS225 Final Project </h1>
-<h2 align=”center”> Yash Gupta | John Kim | Adish Patil | Mike Lee </h2>
+<h1 align="center"> CS225 Final Project </h1>
+<h2 align="center"> Yash Gupta | John Kim | Adish Patil | Mike Lee </h2>
 
 ## Summary ##
 Our final project uses the [Stanford Reddit Hyperlink Network dataset](http://snap.stanford.edu/data/soc-RedditHyperlinks.html) to provide intresting insights about interactions and conflicts between communities called subreddits on the popular website [Reddit](https://www.reddit.com).

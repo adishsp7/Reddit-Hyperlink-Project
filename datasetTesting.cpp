@@ -23,6 +23,7 @@ int main()
   Reddit red("data/connected.csv"); // Creates reddit object
   // WARNING: Due to our large dataset, Both SCC implementations will run into Stack Overflow
   // Set stack size to unlimited using "ulimit -s unlimited" before calling DFSTraversal(), SCCs(), or StronglyCC()
+  system("ulimit -s unlimited"); // Set stack size to unlimited
   vector<vector<Vertex>> kosaraju = red.SCCs(); // Kosarajus Strongly Connected Componets Implementation
   vector<vector<Vertex>> tarjan = red.StronglyCC(); // Kosarajus Strongly Connected Componets Implementation
   vector<Vertex> fulltraversal = red.TraversalDFS(); // Full graph DFS Traversal

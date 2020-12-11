@@ -77,6 +77,8 @@ Source Subreddit | Target Subreddit | Sentiment | Count
   * :warning: ***This executable sets the stack size to unlimited in order to avoid stack overflow with large datasets.*** :warning:
 
 
+**Note:** Unlimited stack size command - `ulimit -s unlimited`
+___
 
 
 
